@@ -7,6 +7,9 @@ using UnityEngine;
 */
 public class SpellLibrary : MonoBehaviour {
 
+    //The bomb mix controller
+    public BombMixController bmc;
+
     //Number of spells
     public int SPELL_NUMBER = 24;
 
@@ -20,27 +23,12 @@ public class SpellLibrary : MonoBehaviour {
     public float T2_MULTIPLIER = 1.25f, T2_PURE_MULTIPLIER = 1.5f,
         T3_MULTIPLIER = 2f, T3_PURE_MULTIPLIER = 0f;
 
-    public string s1, s2;
 
     void Start()
     {
         InitList();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if(CompareString(s1, s2))
-            {
-                Debug.Log("Match!");
-            }
-            else
-            {
-                Debug.Log("Not a match.");
-            }
-        }
-    }
 
     public void InitList()
     {
@@ -50,46 +38,57 @@ public class SpellLibrary : MonoBehaviour {
         //Assign all values
         
         //Tier 1 spells
-        spellLibrary[0] = new Spell("Ember Pebble", BASE_DAMAGE, Element.Fire, "F");
-        spellLibrary[1] = new Spell("Gaia Seed", BASE_DAMAGE, Element.Earth, "E");
-        spellLibrary[2] = new Spell("Nimbus Quill", BASE_DAMAGE, Element.Air, "A");
-        spellLibrary[3] = new Spell("Mermaid Scale", BASE_DAMAGE, Element.Water, "W");
+        spellLibrary[0] = new Spell("EmberPebble", BASE_DAMAGE, Element.Fire, "F");
+        spellLibrary[1] = new Spell("GaiaSeed", BASE_DAMAGE, Element.Earth, "E");
+        spellLibrary[2] = new Spell("NimbusQuill", BASE_DAMAGE, Element.Air, "A");
+        spellLibrary[3] = new Spell("MermaidScale", BASE_DAMAGE, Element.Water, "W");
 
         //Tier 2  mixed spells
-        spellLibrary[4] = new Spell("Gaia Pebble", (int)(T2_MULTIPLIER * (float)BASE_DAMAGE), Element.Neutral, "FE");
-        spellLibrary[5] = new Spell("Ember Scale", (int)(T2_MULTIPLIER * (float)BASE_DAMAGE), Element.Neutral, "FW");
-        spellLibrary[6] = new Spell("Nimbus Seed", (int)(T2_MULTIPLIER * (float)BASE_DAMAGE), Element.Neutral, "EA");
-        spellLibrary[7] = new Spell("Mermaid Quill", (int)(T2_MULTIPLIER * (float)BASE_DAMAGE), Element.Neutral, "AW");
+        spellLibrary[4] = new Spell("GaiaPebble", (int)(T2_MULTIPLIER * (float)BASE_DAMAGE), Element.Neutral, "FE");
+        spellLibrary[5] = new Spell("EmberScale", (int)(T2_MULTIPLIER * (float)BASE_DAMAGE), Element.Neutral, "FW");
+        spellLibrary[6] = new Spell("NimbusSeed", (int)(T2_MULTIPLIER * (float)BASE_DAMAGE), Element.Neutral, "EA");
+        spellLibrary[7] = new Spell("MermaidQuill", (int)(T2_MULTIPLIER * (float)BASE_DAMAGE), Element.Neutral, "AW");
 
         //Tier 2 pure spells
-        spellLibrary[8] = new Spell("Ember Stone", (int)(T2_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Fire, "FF");
-        spellLibrary[9] = new Spell("Gaia Root", (int)(T2_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Earth, "EE");
-        spellLibrary[10] = new Spell("Mermaid Fin", (int)(T2_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "WW");
-        spellLibrary[11] = new Spell("Nimbus Nimbus", (int)(T2_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Air, "AA");
+        spellLibrary[8] = new Spell("EmberStone", (int)(T2_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Fire, "FF");
+        spellLibrary[9] = new Spell("GaiaRoot", (int)(T2_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Earth, "EE");
+        spellLibrary[10] = new Spell("MermaidFin", (int)(T2_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "WW");
+        spellLibrary[11] = new Spell("NimbusNimbus", (int)(T2_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Air, "AA");
 
         //Tier 3 mixed spells
-        spellLibrary[12] = new Spell("Magma Slide", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Fire, "FFE");
-        spellLibrary[13] = new Spell("Steamy Shower", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Fire, "FFW");
-        spellLibrary[14] = new Spell("Summer Bonfire", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Earth, "FEE");
-        spellLibrary[15] = new Spell("Heavy Rain", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "FWW");
-        spellLibrary[16] = new Spell("Sand Storm", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Air, "AAE");
-        spellLibrary[17] = new Spell("Lightning Strike", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Air, "AAW");
-        spellLibrary[18] = new Spell("Rock Rumble", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Earth, "AEE");
-        spellLibrary[19] = new Spell("Riptide Rage", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "AWW");
+        spellLibrary[12] = new Spell("MagmaSlide", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Fire, "FFE");
+        spellLibrary[13] = new Spell("SteamyShower", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Fire, "FFW");
+        spellLibrary[14] = new Spell("SummerBonfire", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Earth, "FEE");
+        spellLibrary[15] = new Spell("HeavyRain", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "FWW");
+        spellLibrary[16] = new Spell("SandStorm", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Air, "AAE");
+        spellLibrary[17] = new Spell("LightningStrike", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Air, "AAW");
+        spellLibrary[18] = new Spell("RockRumble", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Earth, "AEE");
+        spellLibrary[19] = new Spell("RiptideRage", (int)(T3_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "AWW");
 
         //Tier 3 pure spells
         spellLibrary[20] = new Spell("Singerella", (int)(T3_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Fire, "FFF");
-        spellLibrary[21] = new Spell("Time Tornado", (int)(T3_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Air, "AAA");
-        spellLibrary[22] = new Spell("Shattered Earth", (int)(T3_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Earth, "EEE");
-        spellLibrary[23] = new Spell("Flash Flood", (int)(T3_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "WWW");
+        spellLibrary[21] = new Spell("TimeTornado", (int)(T3_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Air, "AAA");
+        spellLibrary[22] = new Spell("ShatteredEarth", (int)(T3_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Earth, "EEE");
+        spellLibrary[23] = new Spell("FlashFlood", (int)(T3_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "WWW");
+
+        //Tell bomb mix we are finished
+        bmc.ResetMix();
 
     }
 
     //Compare strings to see if elements of s1 is contained in s2.
     public bool CompareString(string s1, string s2)
     {
+        //If greater length, return false.
+        if (s1.Length > s2.Length)
+            return false;
+
         //Bool array that corresponds to each character in s1
         bool[] isThere = new bool[s1.Length];
+        for(int i = 0; i < isThere.Length; i++)
+        {
+            isThere[i] = false;
+        }
 
         //Index value of string 1
         int index = 0;
@@ -104,15 +103,10 @@ public class SpellLibrary : MonoBehaviour {
                 {
                     isThere[index] = true;
 
-                    s2.Remove(i);
-                    //Subtract one since we removed one from the list
-                    i--;
+                    s2 = s2.Remove(i, 1);
+                    //Debug.Log(s2);
                     break;
                 }
-                else
-                {
-                    isThere[index] = false;
-                }    
             }
             index++;
         }
@@ -124,10 +118,6 @@ public class SpellLibrary : MonoBehaviour {
             //If we use && all the way through the array, it will be false if one gets false, all will be true.
             returnBool = returnBool && isThere[i];
         }
-
-        //If greater length, return false.
-        if (s1.Length > s2.Length)
-            return false; 
 
         return returnBool;
     }
