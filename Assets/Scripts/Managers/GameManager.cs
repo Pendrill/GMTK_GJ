@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour {
     public Transform shopkeeper;
     public ShopkeeperManager theShopkeeperManager;
 
+    public GameObject[] enemies;
+
     //List of all the possible states
     public enum GameState {Wait, IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence, RestartPhase};
     //keeps track of the state we are currently in
@@ -36,6 +38,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         //setCurrentState(GameState.IntroSequence);
+        Instantiate(enemies[Random.Range(0, 3)]);
         thePlayerManager = FindObjectOfType<PlayerManager>();
         theEnemyManager = FindObjectOfType<EnemyManager>();
 	}
@@ -127,6 +130,7 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.RestartPhase:
                 //this is where we change the background, music, ennemies, shopkeep, etc
+                
                 time += Time.deltaTime * 2;
                 Color tmp2 = fadeToBlack.color;
                 alpha = Mathf.Lerp(1.0f, 0.0f, time / 2);
@@ -134,6 +138,8 @@ public class GameManager : MonoBehaviour {
                 fadeToBlack.color = tmp2;
                 if(getStateElapsed() > 2.0f)
                 {
+                    Destroy(theEnemyManager.gameObject);
+                    Instantiate(enemies[Random.Range(0, 3)]);
                     time = 0;
                     setCurrentState(GameState.IntroSequence);
                 }
