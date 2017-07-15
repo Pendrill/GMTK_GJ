@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviour {
     public Transform shopkeeper;
 
     //List of all the possible states
-    enum GameState { IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence};
+    public enum GameState { IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence};
     //keeps track of the state we are currently in
-    GameState currentState;
+    public GameState currentState;
 
     //keeps track of the time spent in current state
     float lastStateChange = 0.0f;
@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour {
         }
 	}
     
-    void setCurrentState(GameState state)
+    public void setCurrentState(GameState state)
     {
         currentState = state;
         lastStateChange = Time.time;
