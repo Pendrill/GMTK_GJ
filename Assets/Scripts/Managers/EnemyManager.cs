@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour {
     float time;
 
     SpriteRenderer enemyRenderer;
-    float alpha;
+    float alpha, nextAttack;
 
     GameManager theGameManager;
 
@@ -20,6 +20,7 @@ public class EnemyManager : MonoBehaviour {
         currentHealth = maxHealth;
         enemyRenderer = GetComponent<SpriteRenderer>();
         theGameManager = FindObjectOfType<GameManager>();
+        nextAttack = 5f;
         //setCurrentState(GameState.appear);
 	}
 	
@@ -45,6 +46,12 @@ public class EnemyManager : MonoBehaviour {
                 break;
             case GameState.attack:
                 Debug.Log("The enemy is now attacking");
+                nextAttack -= Time.deltaTime;
+                if(nextAttack <= 0.0f)
+                {
+                    Debug.Log("the ennemy performed an attack");
+                    nextAttack = 5.0f;
+                }
                 break;
             case GameState.die:
 

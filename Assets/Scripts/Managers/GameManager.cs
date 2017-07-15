@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour {
 
     float time;
 
+    bool enemyIsDefeated, playerIsDead;
+
 
 
 	// Use this for initialization
@@ -70,6 +72,14 @@ public class GameManager : MonoBehaviour {
             case GameState.FightingEnemy:
                 time += Time.deltaTime;
                 Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-15, -4), new Vector2(387, -4), time*3);
+
+                if (enemyIsDefeated)
+                {
+                    setCurrentState(GameState.OutroSequence);
+                }else if (playerIsDead)
+                {
+                    setCurrentState(GameState.GameOverSequence);
+                }
                 //Activate the player fighting phase
                 //check if either the player or the ennemy are dead
                 //move on to the gameOver or Outro Sequence
