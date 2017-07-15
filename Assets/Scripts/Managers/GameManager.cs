@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour {
     public ShopkeeperManager theShopkeeperManager;
 
     //List of all the possible states
-    public enum GameState {Wait, IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence};
+    public enum GameState {Wait, IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence, RestartPhase};
     //keeps track of the state we are currently in
     public GameState currentState;
 
@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour {
                 //move on to the pause before start
                 theEnemyManager = FindObjectOfType<EnemyManager>();
                 theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
+                theEnemyManager.setCurrentState(EnemyManager.GameState.wait);
+                setCurrentState(GameState.Wait);
                 break;
             case GameState.PauseBeforeStart:
                 time += Time.deltaTime;
@@ -114,10 +116,27 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.ItemCollection:
                 Debug.Log("You have collected this: insert name here");
+                if(getStateElapsed() > 3.0f)
+                {
+                    setCurrentState(GameState.RestartPhase);
+                }
                 //Display the Items that were collected
                 //Update the inventory of the player
                 //wait until the player presses continue before restarting the phase
                 //updating levels and percentages might happen here 
+                break;
+            case GameState.RestartPhase:
+                //this is where we change the background, music, ennemies, shopkeep, etc
+                time += Time.deltaTime * 2;
+                Color tmp2 = fadeToBlack.color;
+                alpha = Mathf.Lerp(1.0f, 0.0f, time / 2);
+                tmp2.a = alpha;
+                fadeToBlack.color = tmp2;
+                if(getStateElapsed() > 2.0f)
+                {
+                    time = 0;
+                    setCurrentState(GameState.IntroSequence);
+                }
                 break;
             case GameState.ShopkeeperSequence:
                 //enable the phase to barter/fight the shopkeeper
@@ -130,10 +149,10 @@ public class GameManager : MonoBehaviour {
             case GameState.GameOverSequence:
                 Debug.Log("The Player Died");
                 time += Time.deltaTime * 2;
-                Color tmp2 = fadeToBlack.color;
+                Color tmp3 = fadeToBlack.color;
                 alpha = Mathf.Lerp(0.0f, 1.0f, time);
-                tmp2.a = alpha;
-                fadeToBlack.color = tmp2;
+                tmp3.a = alpha;
+                fadeToBlack.color = tmp3;
                 //GAME OVER
                 break;
         }
