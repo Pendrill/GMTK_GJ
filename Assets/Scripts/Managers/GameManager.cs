@@ -6,10 +6,13 @@ public class GameManager : MonoBehaviour {
 
     //Reference to the current alchemist the player is controlling
     public Transform playerCharacter;
+    public PlayerManager thePlayerManager;
     //Reference to the current enemy being fought 
     public Transform currentEnemy;
+    public EnemyManager theEnemyManager;
     //Reference to the shopkeeper encountered
     public Transform shopkeeper;
+    public ShopkeeperManager theShopkeeperManager;
 
     //List of all the possible states
     public enum GameState { IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence};
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         setCurrentState(GameState.IntroSequence);
+        thePlayerManager = FindObjectOfType<PlayerManager>();
 	}
 	
 	// Update is called once per frame
@@ -32,11 +36,14 @@ public class GameManager : MonoBehaviour {
         switch (currentState)
         {
             case GameState.IntroSequence:
+                thePlayerManager.setCurrentState(PlayerManager.GameState.EnterScene);
                 //figure out whether the player encounters a shopkeeper or an enemy
                 //update the (enemy or shopkeeper) and player variables
                 //have the player move up
                 // have the ennemy or shopkeeper
                 //move on to the pause before start
+                theEnemyManager = FindObjectOfType<EnemyManager>();
+                theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
                 break;
             case GameState.PauseBeforeStart:
                 //check whether we are dealing with the shopkeeper or an ennemy
