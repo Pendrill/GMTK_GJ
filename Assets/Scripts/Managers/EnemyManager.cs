@@ -11,11 +11,15 @@ public class EnemyManager : MonoBehaviour {
 
     SpriteRenderer enemyRenderer;
     float alpha;
+
+    GameManager theGameManager;
+
 	// Use this for initialization
 	void Start () {
         maxHealth = 100.0f;
         currentHealth = maxHealth;
         enemyRenderer = GetComponent<SpriteRenderer>();
+        theGameManager = FindObjectOfType<GameManager>();
         //setCurrentState(GameState.appear);
 	}
 	
@@ -32,9 +36,15 @@ public class EnemyManager : MonoBehaviour {
                 alpha = Mathf.Lerp(0.0f, 1.0f, time);
                 tmp.a = alpha;
                 enemyRenderer.color = tmp;
+                if(getStateElapsed() > 1.0f)
+                {
+                    setCurrentState(GameState.wait);
+                    theGameManager.setCurrentState(GameManager.GameState.PauseBeforeStart);
+
+                }
                 break;
             case GameState.attack:
-
+                Debug.Log("The enemy is now attacking");
                 break;
             case GameState.die:
 
@@ -48,7 +58,7 @@ public class EnemyManager : MonoBehaviour {
         lastStateChange = Time.time;
     }
 
-    float getElapsedTime()
+    float getStateElapsed()
     {
         return Time.time - lastStateChange;
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -15,19 +16,24 @@ public class GameManager : MonoBehaviour {
     public ShopkeeperManager theShopkeeperManager;
 
     //List of all the possible states
-    public enum GameState { IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence};
+    public enum GameState {Wait, IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence};
     //keeps track of the state we are currently in
     public GameState currentState;
 
     //keeps track of the time spent in current state
     float lastStateChange = 0.0f;
 
+    public Text Fight;
+
+    float time;
+
 
 
 	// Use this for initialization
 	void Start () {
-        setCurrentState(GameState.IntroSequence);
+        //setCurrentState(GameState.IntroSequence);
         thePlayerManager = FindObjectOfType<PlayerManager>();
+        theEnemyManager = FindObjectOfType<EnemyManager>();
 	}
 	
 	// Update is called once per frame
@@ -35,6 +41,8 @@ public class GameManager : MonoBehaviour {
 
         switch (currentState)
         {
+            case GameState.Wait:
+                break;
             case GameState.IntroSequence:
                 thePlayerManager.setCurrentState(PlayerManager.GameState.EnterScene);
                 //figure out whether the player encounters a shopkeeper or an enemy
@@ -46,11 +54,22 @@ public class GameManager : MonoBehaviour {
                 theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
                 break;
             case GameState.PauseBeforeStart:
+                time += Time.deltaTime;
+                Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-377, -4), new Vector2(-15, -4), time);
+                if (getStateElapsed() > 2.0f)
+                {
+                    thePlayerManager.setCurrentState(PlayerManager.GameState.Fight);
+                    theEnemyManager.setCurrentState(EnemyManager.GameState.attack);
+                    setCurrentState(GameState.FightingEnemy);
+                    time = 0.0f;
+                }
                 //check whether we are dealing with the shopkeeper or an ennemy
                 //Fight/Barter comes up from the left, stops in the center, and then moves to the right
                 //move on to FightingEnnemy or ShopKeeper phase
                 break;
             case GameState.FightingEnemy:
+                time += Time.deltaTime;
+                Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-15, -4), new Vector2(387, -4), time*3);
                 //Activate the player fighting phase
                 //check if either the player or the ennemy are dead
                 //move on to the gameOver or Outro Sequence

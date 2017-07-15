@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviour {
                 {
                     theEnemyManager = FindObjectOfType<EnemyManager>();
                     theEnemyManager.setCurrentState(EnemyManager.GameState.appear);
-                    setCurrentState(GameState.Fight);
+                    setCurrentState(GameState.Wait);
                 }
                 break;
 
