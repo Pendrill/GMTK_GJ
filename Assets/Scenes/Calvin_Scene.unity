@@ -245,8 +245,8 @@ MonoBehaviour:
   T2_PURE_MULTIPLIER: 1.5
   T3_MULTIPLIER: 2
   T3_PURE_MULTIPLIER: 0
-  s1: AAA
-  s2: WWW
+  s1: 
+  s2: 
 --- !u!4 &370951893
 Transform:
   m_ObjectHideFlags: 0
