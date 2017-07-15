@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
     //keep track of the Max and Current Health of the player character
-    float maxHealth, currentHealth;
+    public float maxHealth, currentHealth;
 
     //have access to the gameManager
     GameManager theGameManager;
@@ -22,9 +22,9 @@ public class PlayerManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        maxHealth = 100.0f;
+        maxHealth = 10.0f;
         currentHealth = maxHealth;
-        //theGameManager = FindObjectOfType<GameManager>();
+        theGameManager = FindObjectOfType<GameManager>();
         offScreenStartingPos = new Vector3(-5, -6, 0);
         FightingPos = new Vector3(-5, -1, 0);
         ExitPos = new Vector3(-5, 11, 0);
@@ -33,6 +33,11 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(currentHealth <= 0f)
+        {
+            theEnemyManager.setCurrentState(EnemyManager.GameState.wait);
+            setCurrentState(GameState.Die);
+        }
         switch (currentState)
         {
             case GameState.Wait:
@@ -58,7 +63,7 @@ public class PlayerManager : MonoBehaviour {
 
             case GameState.Die:
 
-                //theGameManager.setCurrentState(GameManager.GameState.GameOverSequence);
+                theGameManager.setCurrentState(GameManager.GameState.GameOverSequence);
                 break;
         }
 	}

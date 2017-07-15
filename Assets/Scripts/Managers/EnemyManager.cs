@@ -13,6 +13,7 @@ public class EnemyManager : MonoBehaviour {
     float alpha, nextAttack;
 
     GameManager theGameManager;
+    PlayerManager thePlayerManager;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +21,7 @@ public class EnemyManager : MonoBehaviour {
         currentHealth = maxHealth;
         enemyRenderer = GetComponent<SpriteRenderer>();
         theGameManager = FindObjectOfType<GameManager>();
+        thePlayerManager = FindObjectOfType<PlayerManager>();
         nextAttack = 5f;
         //setCurrentState(GameState.appear);
 	}
@@ -50,6 +52,7 @@ public class EnemyManager : MonoBehaviour {
                 if(nextAttack <= 0.0f)
                 {
                     Debug.Log("the ennemy performed an attack");
+                    thePlayerManager.currentHealth -= 5;
                     nextAttack = 5.0f;
                 }
                 break;

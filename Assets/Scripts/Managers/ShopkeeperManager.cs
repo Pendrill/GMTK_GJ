@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ShopkeeperManager : MonoBehaviour {
-    public float maxHealth, currentHealth;
+    float maxHealth, currentHealth;
     public enum GameState { appear, barter, attack, leave, die };
     public GameState currentState;
     float lastStateChange = 0.0f;

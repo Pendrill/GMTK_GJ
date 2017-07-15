@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour {
                 //this is for if we have the time;
                 break;
             case GameState.GameOverSequence:
+                Debug.Log("The Player Died");
                 //GAME OVER
                 break;
         }
