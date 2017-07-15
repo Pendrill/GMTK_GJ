@@ -25,9 +25,11 @@ public class GameManager : MonoBehaviour {
 
     public Text Fight;
 
-    float time;
+    public float time, alpha;
 
     bool enemyIsDefeated, playerIsDead;
+
+    public Image fadeToBlack;
 
 
 
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour {
         switch (currentState)
         {
             case GameState.Wait:
+                time = 0f;
                 break;
             case GameState.IntroSequence:
                 thePlayerManager.setCurrentState(PlayerManager.GameState.EnterScene);
@@ -73,18 +76,27 @@ public class GameManager : MonoBehaviour {
                 time += Time.deltaTime;
                 Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-15, -4), new Vector2(387, -4), time*3);
 
-                if (enemyIsDefeated)
+                //this code might be unnecessary, I think i can do these things from the player and ennemy manager.
+                /*if (enemyIsDefeated)
                 {
                     setCurrentState(GameState.OutroSequence);
                 }else if (playerIsDead)
                 {
                     setCurrentState(GameState.GameOverSequence);
-                }
+                }*/
+
                 //Activate the player fighting phase
                 //check if either the player or the ennemy are dead
                 //move on to the gameOver or Outro Sequence
                 break;
             case GameState.OutroSequence:
+                theEnemyManager.setCurrentState(EnemyManager.GameState.wait);
+                thePlayerManager.setCurrentState(PlayerManager.GameState.LeaveScene);
+                time += Time.deltaTime * 2;
+                Color tmp = fadeToBlack.color;
+                alpha = Mathf.Lerp(0.0f, 1.0f, time/2);
+                tmp.a = alpha;
+                fadeToBlack.color = tmp;
                 //Have the enemie perform death animation and then fade out.
                 //Then have the player move upwards out of the canvas
                 //Then fade to black 
@@ -106,6 +118,11 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.GameOverSequence:
                 Debug.Log("The Player Died");
+                time += Time.deltaTime * 2;
+                Color tmp2 = fadeToBlack.color;
+                alpha = Mathf.Lerp(0.0f, 1.0f, time);
+                tmp2.a = alpha;
+                fadeToBlack.color = tmp2;
                 //GAME OVER
                 break;
         }
@@ -120,5 +137,9 @@ public class GameManager : MonoBehaviour {
     float getStateElapsed()
     {
         return Time.time - lastStateChange;
+    }
+    public void resetTime()
+    {
+        time = 0.0f;
     }
 }

@@ -29,9 +29,20 @@ public class EnemyManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Debug.Log(currentState);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentHealth = -1;
+        }
+        if(currentHealth <= 0)
+        {
+            theGameManager.setCurrentState(GameManager.GameState.Wait);
+            thePlayerManager.setCurrentState(PlayerManager.GameState.Wait);
+            setCurrentState(GameState.die);
+        }
         switch (currentState)
         {
             case GameState.wait:
+                time = 0f;
                 break;
             case GameState.appear:
                 time += Time.deltaTime*2;
@@ -43,6 +54,7 @@ public class EnemyManager : MonoBehaviour {
                 {
                     setCurrentState(GameState.wait);
                     theGameManager.setCurrentState(GameManager.GameState.PauseBeforeStart);
+                    time = 0;
 
                 }
                 break;
@@ -57,7 +69,19 @@ public class EnemyManager : MonoBehaviour {
                 }
                 break;
             case GameState.die:
+                currentHealth = 1;
+                time += Time.deltaTime * 2;
+                Color tmp2 = enemyRenderer.color;
+                alpha = Mathf.Lerp(1.0f, 0.0f, time);
+                tmp2.a = alpha;
+                enemyRenderer.color = tmp2;
+                if (getStateElapsed() > 1.0f)
+                {
+                    setCurrentState(GameState.wait);
+                    theGameManager.setCurrentState(GameManager.GameState.OutroSequence);
+                    time = 0;
 
+                }
                 break;
         }
 	}

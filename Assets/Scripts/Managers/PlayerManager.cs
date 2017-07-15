@@ -18,11 +18,13 @@ public class PlayerManager : MonoBehaviour {
     //keep track of time spent in the current scene
     float lastStateChange = 0.0f;
 
+    float time;
+
     public Vector3 offScreenStartingPos, FightingPos, ExitPos;
 
 	// Use this for initialization
 	void Start () {
-        maxHealth = 10.0f;
+        maxHealth = 1.0f;
         currentHealth = maxHealth;
         theGameManager = FindObjectOfType<GameManager>();
         offScreenStartingPos = new Vector3(-5, -6, 0);
@@ -36,20 +38,25 @@ public class PlayerManager : MonoBehaviour {
         if(currentHealth <= 0f)
         {
             theEnemyManager.setCurrentState(EnemyManager.GameState.wait);
+            theGameManager.resetTime();
+            theGameManager.setCurrentState(GameManager.GameState.Wait);
             setCurrentState(GameState.Die);
         }
         switch (currentState)
         {
             case GameState.Wait:
+                time = 0f;
                 break;
             case GameState.EnterScene:
-                transform.position = Vector3.Lerp(offScreenStartingPos, FightingPos, Time.time/2);
+                time += Time.deltaTime / 2;
+                transform.position = Vector3.Lerp(offScreenStartingPos, FightingPos, time);
                 transform.localScale = Vector3.Lerp(new Vector3(30, 30, 30), new Vector3(15, 15, 15), Time.time/2);
                 if(getStateElapsed() > 2.0f)
                 {
                     theEnemyManager = FindObjectOfType<EnemyManager>();
                     theEnemyManager.setCurrentState(EnemyManager.GameState.appear);
                     setCurrentState(GameState.Wait);
+                    time = 0;
                 }
                 break;
 
@@ -58,11 +65,14 @@ public class PlayerManager : MonoBehaviour {
                 break;
 
             case GameState.LeaveScene:
+                time += Time.deltaTime / 2;
+                transform.position = Vector3.Lerp(FightingPos, ExitPos, time);
+                transform.localScale = Vector3.Lerp(new Vector3(15, 15, 15), new Vector3(5, 5, 5), time);
 
                 break;
 
             case GameState.Die:
-
+                currentHealth = 1;
                 theGameManager.setCurrentState(GameManager.GameState.GameOverSequence);
                 break;
         }
