@@ -154,6 +154,9 @@ public class Spell
     //Combination string that tells us its composition
     public string combination = "";
 
+    //Discovered
+    public bool discovered = false;
+
     //Constructor for spells
     public Spell(string inName, int inDamage, Element inAffinity, string inCombination)
     {
