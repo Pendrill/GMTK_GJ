@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour {
                 time = 0f;
                 break;
             case GameState.IntroSequence:
+                theEnemyManager.currentHealth = 100;
+                thePlayerManager.currentHealth = 5;
                 thePlayerManager.setCurrentState(PlayerManager.GameState.EnterScene);
                 //figure out whether the player encounters a shopkeeper or an enemy
                 //update the (enemy or shopkeeper) and player variables
@@ -60,7 +62,8 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.PauseBeforeStart:
                 time += Time.deltaTime;
-                Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-377, -4), new Vector2(-15, -4), time);
+                //Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-377, -4), new Vector2(-15, -4), time);
+                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-377, -15, time), -4);
                 if (getStateElapsed() > 2.0f)
                 {
                     thePlayerManager.setCurrentState(PlayerManager.GameState.Fight);
@@ -74,7 +77,7 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.FightingEnemy:
                 time += Time.deltaTime;
-                Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-15, -4), new Vector2(387, -4), time*3);
+                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-15, 387, time*3), -4); // new Vector2(-15, -4), new Vector2(387, -4), time*3);
 
                 //this code might be unnecessary, I think i can do these things from the player and ennemy manager.
                 /*if (enemyIsDefeated)
@@ -97,12 +100,20 @@ public class GameManager : MonoBehaviour {
                 alpha = Mathf.Lerp(0.0f, 1.0f, time/2);
                 tmp.a = alpha;
                 fadeToBlack.color = tmp;
+                if (getStateElapsed() > 2.0f)
+                {
+                    thePlayerManager.setCurrentState(PlayerManager.GameState.Wait);
+                    theEnemyManager.setCurrentState(EnemyManager.GameState.wait);
+                    setCurrentState(GameState.ItemCollection);
+                    time = 0.0f;
+                }
                 //Have the enemie perform death animation and then fade out.
                 //Then have the player move upwards out of the canvas
                 //Then fade to black 
                 //Move on to Item Collection Phase
                 break;
             case GameState.ItemCollection:
+                Debug.Log("You have collected this: insert name here");
                 //Display the Items that were collected
                 //Update the inventory of the player
                 //wait until the player presses continue before restarting the phase

@@ -49,9 +49,9 @@ public class PlayerManager : MonoBehaviour {
                 break;
             case GameState.EnterScene:
                 time += Time.deltaTime / 2;
-                transform.position = Vector3.Lerp(offScreenStartingPos, FightingPos, time);
-                transform.localScale = Vector3.Lerp(new Vector3(30, 30, 30), new Vector3(15, 15, 15), Time.time/2);
-                if(getStateElapsed() > 2.0f)
+                transform.position = new Vector2(Mathf.SmoothStep(offScreenStartingPos.x, FightingPos.x, time), Mathf.SmoothStep(offScreenStartingPos.y, FightingPos.y, time));// Vector3.Lerp(offScreenStartingPos, FightingPos, time);
+                transform.localScale = new Vector3(Mathf.SmoothStep(30, 15, time), Mathf.SmoothStep(30, 15, time), Mathf.SmoothStep(30, 15, time));//Vector3.Lerp(new Vector3(30, 30, 30), new Vector3(15, 15, 15), Time.time/2);
+                if (getStateElapsed() > 2.0f)
                 {
                     theEnemyManager = FindObjectOfType<EnemyManager>();
                     theEnemyManager.setCurrentState(EnemyManager.GameState.appear);
@@ -66,8 +66,8 @@ public class PlayerManager : MonoBehaviour {
 
             case GameState.LeaveScene:
                 time += Time.deltaTime / 2;
-                transform.position = Vector3.Lerp(FightingPos, ExitPos, time);
-                transform.localScale = Vector3.Lerp(new Vector3(15, 15, 15), new Vector3(5, 5, 5), time);
+                transform.position = new Vector2(Mathf.SmoothStep(FightingPos.x, ExitPos.x, time), Mathf.SmoothStep(FightingPos.y, ExitPos.y, time));//Vector3.Lerp(FightingPos, ExitPos, time);
+                transform.localScale = new Vector3(Mathf.SmoothStep(15, 5, time), Mathf.SmoothStep(15, 5, time), Mathf.SmoothStep(15, 5, time));//Vector3.Lerp(new Vector3(15, 15, 15), new Vector3(5, 5, 5), time);
 
                 break;
 
