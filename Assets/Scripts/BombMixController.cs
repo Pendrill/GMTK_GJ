@@ -43,23 +43,28 @@ public class BombMixController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //Set whether or not we can still craft.
-        crafting = isCrafting();
+        //If the combinatory string is 3 length
+        if (!isCrafting())
+        {
+            crafting = false;
+        }
 
         //Set ButtonManager active bools
         bm.gameObject.active = crafting;
 	}
 
     //Spawns the correct bomb based on the spell
-    public void SpawnSpell()
+    public GameObject SpawnSpell()
     {
         if(spell != null)
         {
             GameObject temp = Instantiate(Resources.Load("SpellPrefabs/" + spell.name), bomb.transform.position, Quaternion.identity) as GameObject;
             temp.GetComponent<BombController>().DAMAGE = spell.damage;
             temp.GetComponent<BombController>().AFFINITY = spell.affinity;
-            ResetMix();
+            crafting = false;
+            return temp;
         }
+        return null;
     }
 
     //Finalize spell. Selects the spell it exactly corresponds to.
@@ -139,6 +144,12 @@ public class BombMixController : MonoBehaviour {
     //Restarts the mix, used on spawning the item
     public void ResetMix()
     {
+        //Reset button visibility
+        crafting = true;
+
+        //Reset spell
+        spell = null;
+
         //Reset combinatory string
         combination = "";
 
