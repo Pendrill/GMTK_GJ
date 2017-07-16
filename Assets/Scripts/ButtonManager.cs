@@ -16,7 +16,7 @@ public class ButtonManager : MonoBehaviour {
 	void Update () {
 
         //Always set to opposite of whether or not something has been spawned.
-        SetAllButtons(!isSpawned);
+        //SetAllButtons(!isSpawned);
 	}
 
     //Sets the interactable value of all the buttons under this manager.
@@ -24,7 +24,7 @@ public class ButtonManager : MonoBehaviour {
     {
         for (int i = 0; i < buttons.Length; i++)
         {
-            buttons[i].GetComponent<SpawnDuplicate>().isActive = interactable;
+            buttons[i].GetComponent<SpawnDuplicate>().gameObject.SetActive(interactable);
         }
     }
 }

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     //Reference to the shopkeeper encountered
     public GameObject shopkeeper;
     public ShopkeeperManager theShopkeeperManager;
+    public ButtonManager theButtonManager;
 
     public GameObject[] enemies;
     public GameObject[] backgrounds;
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour {
     //keeps track of the time spent in current state
     float lastStateChange = 0.0f;
 
-    public Text Fight;
+    public Text Fight, Collection;
 
     public float time, alpha;
 
@@ -37,6 +38,8 @@ public class GameManager : MonoBehaviour {
 
     public Image fadeToBlack;
     public int totalDrop = 5;
+
+    InventoryScript theInventoryScript;
 
 
 
@@ -48,6 +51,8 @@ public class GameManager : MonoBehaviour {
         Instantiate(enemies[Random.Range(0, 3)]);
         thePlayerManager = FindObjectOfType<PlayerManager>();
         theEnemyManager = FindObjectOfType<EnemyManager>();
+        theInventoryScript = FindObjectOfType<InventoryScript>();
+        theButtonManager = FindObjectOfType<ButtonManager>();
 	}
 	
 	// Update is called once per frame
@@ -99,6 +104,7 @@ public class GameManager : MonoBehaviour {
                 time += Time.deltaTime;
                 Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-15, 600, time*3), -4); // new Vector2(-15, -4), new Vector2(387, -4), time*3);
 
+                theButtonManager.SetAllButtons(true);
                 //this code might be unnecessary, I think i can do these things from the player and ennemy manager.
                 /*if (enemyIsDefeated)
                 {
@@ -113,6 +119,7 @@ public class GameManager : MonoBehaviour {
                 //move on to the gameOver or Outro Sequence
                 break;
             case GameState.OutroSequence:
+                theButtonManager.SetAllButtons(false);
                 theEnemyManager.setCurrentState(EnemyManager.GameState.wait);
                 thePlayerManager.setCurrentState(PlayerManager.GameState.LeaveScene);
                 time += Time.deltaTime * 2;
@@ -134,8 +141,51 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.ItemCollection:
                 Debug.Log("You have collected this: insert name here");
+                Collection.text = "You picked up: ";
+                int fire = 0, water = 0, earth = 0, air = 0;
+                for (int i = 0; i < totalDrop; i++)
+                {
+                    if(theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.EmberPebble)
+                    {
+                        fire += 1;
+                        theInventoryScript.ChangeItemValue(Item.EmberPebble, 1);
+                    }
+                    else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.GaiaSeed)
+                    {
+                        earth += 1;
+                        theInventoryScript.ChangeItemValue(Item.GaiaSeed, 1);
+                    }
+                    else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.NimbusQuill)
+                    {
+                        air += 1;
+                        theInventoryScript.ChangeItemValue(Item.NimbusQuill, 1);
+                    }
+                    else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.MermaidScale)
+                    {
+                        water += 1;
+                        theInventoryScript.ChangeItemValue(Item.MermaidScale, 1);
+                    }
+                }
+                if (fire != 0)
+                {
+                    Collection.text += "\n Ember Pebble: " + fire;
+                }
+                if (earth != 0)
+                {
+                    Collection.text += "\n GaiaSeed: " + earth;
+                }
+                if(air != 0)
+                {
+                    Collection.text += "\n NimbusQuill: " + air;
+                }
+                if(water != 0)
+                {
+                    Collection.text += "\n MermaidScale: " + water;
+                }
+                Collection.gameObject.SetActive(true);
                 if(getStateElapsed() > 3.0f)
                 {
+                    Collection.gameObject.SetActive(false);
                     setCurrentState(GameState.RestartPhase);
                 }
                 //Display the Items that were collected
