@@ -15,6 +15,9 @@ public class BombController : MonoBehaviour {
     public float LIFE = 10f;
     float MAX_LIFE = 10f;
 
+    //Tier of the spell
+    public int TIER = 0;
+
     //Bounces on bomb
     public int bounces = 0;
 
