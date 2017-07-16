@@ -15,7 +15,8 @@ public class ButtonManager : MonoBehaviour {
     {
         for (int i = 0; i < buttons.Length; i++)
         {
-            buttons[i].GetComponent<SpawnDuplicate>().isActive = interactable;
+            //buttons[i].GetComponent<SpawnDuplicate>().isActive = interactable;
+            buttons[i].gameObject.SetActive(interactable);
         }
     }
 }
