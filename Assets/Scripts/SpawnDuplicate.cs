@@ -52,7 +52,7 @@ public class SpawnDuplicate : MonoBehaviour {
             inventory.ChangeItemValue(itemType, -1);
 
             //Buttonmanager is spawned.
-            bm.isSpawned = true;
+            bm.SetAllButtons(false);
 
             //Calculate the position to spawn our objects at
             Vector3 worldPosition = Vector3.zero;
