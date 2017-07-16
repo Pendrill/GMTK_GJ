@@ -148,22 +148,22 @@ public class GameManager : MonoBehaviour {
                     if(theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.EmberPebble)
                     {
                         fire += 1;
-                        theInventoryScript.ChangeItemValue(Item.EmberPebble, 1);
+                        //theInventoryScript.ChangeItemValue(Item.EmberPebble, 1);
                     }
                     else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.GaiaSeed)
                     {
                         earth += 1;
-                        theInventoryScript.ChangeItemValue(Item.GaiaSeed, 1);
+                        //theInventoryScript.ChangeItemValue(Item.GaiaSeed, 1);
                     }
                     else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.NimbusQuill)
                     {
                         air += 1;
-                        theInventoryScript.ChangeItemValue(Item.NimbusQuill, 1);
+                        //theInventoryScript.ChangeItemValue(Item.NimbusQuill, 1);
                     }
                     else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.MermaidScale)
                     {
                         water += 1;
-                        theInventoryScript.ChangeItemValue(Item.MermaidScale, 1);
+                        //theInventoryScript.ChangeItemValue(Item.MermaidScale, 1);
                     }
                 }
                 if (fire != 0)
@@ -185,6 +185,22 @@ public class GameManager : MonoBehaviour {
                 Collection.gameObject.SetActive(true);
                 if(getStateElapsed() > 3.0f)
                 {
+                    if (fire != 0)
+                    {
+                        theInventoryScript.ChangeItemValue(Item.EmberPebble, fire);
+                    }
+                    if (earth != 0)
+                    {
+                        theInventoryScript.ChangeItemValue(Item.GaiaSeed, earth);
+                    }
+                    if (air != 0)
+                    {
+                        theInventoryScript.ChangeItemValue(Item.NimbusQuill, air);
+                    }
+                    if (water != 0)
+                    {
+                        theInventoryScript.ChangeItemValue(Item.MermaidScale, water);
+                    }
                     Collection.gameObject.SetActive(false);
                     setCurrentState(GameState.RestartPhase);
                 }
