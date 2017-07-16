@@ -6,6 +6,9 @@ using UnityEngine.UI;
 //Spawn's a duplicate from the button so that the player can drag it to the bomb
 public class SpawnDuplicate : MonoBehaviour {
 
+    //Index of its audioClips
+    public int audioIndex;
+
     //Player inventory
     public InventoryScript inventory;
 
@@ -57,6 +60,9 @@ public class SpawnDuplicate : MonoBehaviour {
         //If we have the item
         if (inventory.hasItem(itemType))
         {
+            //Play the audio for picking up
+            bm.PlayPickupSound(audioIndex);
+
             //Reduce the number of this item we own
             inventory.ChangeItemValue(itemType, -1);
 

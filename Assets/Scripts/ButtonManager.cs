@@ -6,9 +6,27 @@ using UnityEngine.UI;
 //Button manager. Simply deactivates all buttons when an object is spawned.
 public class ButtonManager : MonoBehaviour {
 
+    //The audiosource for the button audio
+    AudioSource audioSource;
+
+    //The audio clips for each button
+    public AudioClip[] pickupClips = new AudioClip[4];
 
     //The list of buttons under this manager
     public Button[] buttons = new Button[4];
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    //Plays the corresponding sound
+    public void PlayPickupSound(int index)
+    {
+        audioSource.clip = pickupClips[index];
+        audioSource.Play();
+    }
+
 
     //Sets the interactable value of all the buttons under this manager.
     public void SetAllButtons(bool interactable)

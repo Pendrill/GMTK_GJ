@@ -33,6 +33,7 @@ public class FireButtonController : MonoBehaviour {
         bomb = bmc.GetComponent<BombMixController>().SpawnSpell();
         if (bomb != null)
         {
+            bmc.GetComponent<BombMixController>().PlayHoldClip();
             fireMode = true;
         }
         else
@@ -62,7 +63,14 @@ public class FireButtonController : MonoBehaviour {
 
         if (fireMode)
         {
-            if (Input.GetButton("Fire1"))
+            if(bomb == null)
+            {
+                GetComponent<LineRenderer>().SetPosition(1, transform.position);
+                bmc.GetComponent<BombMixController>().ResetMix();
+                bomb = null;
+                fireMode = false;
+            }
+            else if (Input.GetButton("Fire1"))
             {
                 fireMode = true;
                 GetComponent<LineRenderer>().SetPosition(0, transform.position);
@@ -76,6 +84,7 @@ public class FireButtonController : MonoBehaviour {
             else if(Input.GetButtonUp("Fire1"))
             {
                 //Calculate the ray that is made from pullback of the mouse
+                bmc.GetComponent<BombMixController>().PlayReleaseClip();
                 Vector3 releasePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector3 direction = (transform.position - releasePosition).normalized;
                 float magnitude = direction.magnitude;
