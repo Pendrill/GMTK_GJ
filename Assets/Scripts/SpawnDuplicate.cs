@@ -6,6 +6,9 @@ using UnityEngine.UI;
 //Spawn's a duplicate from the button so that the player can drag it to the bomb
 public class SpawnDuplicate : MonoBehaviour {
 
+    //Index of its audioClips
+    public int audioIndex;
+
     //Player inventory
     public InventoryScript inventory;
 
@@ -26,7 +29,15 @@ public class SpawnDuplicate : MonoBehaviour {
 
     //The buttonmanager
     public ButtonManager bm;
-	
+
+    //The number indicator corresponding to this button
+    public Text text;
+
+    void Start()
+    {
+        text =  transform.GetChild(0).GetComponent<Text>();
+    }
+
     void Update()
     {
         //When active, use appropriate sprite and allow us to press it
@@ -40,6 +51,7 @@ public class SpawnDuplicate : MonoBehaviour {
             GetComponent<Image>().sprite = inactiveSprite;
             GetComponent<Button>().interactable = false;
         }
+        text.text = inventory.itemNumber(itemType) + "";
     }
 
     //Creates a duplicate element to be mixed
@@ -48,11 +60,14 @@ public class SpawnDuplicate : MonoBehaviour {
         //If we have the item
         if (inventory.hasItem(itemType))
         {
+            //Play the audio for picking up
+            bm.PlayPickupSound(audioIndex);
+
             //Reduce the number of this item we own
             inventory.ChangeItemValue(itemType, -1);
 
             //Buttonmanager is spawned.
-            bm.isSpawned = true;
+            bm.SetAllButtons(false);
 
             //Calculate the position to spawn our objects at
             Vector3 worldPosition = Vector3.zero;

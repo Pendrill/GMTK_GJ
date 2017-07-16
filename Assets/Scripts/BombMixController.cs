@@ -1,9 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Controls mixing bombs
 public class BombMixController : MonoBehaviour {
+
+    //The sounds we play when holding and releasing bomb
+    public AudioClip holdClip, releaseClip;
+
+    //The sound for accepting a new ingredient and not getting a dud, and a dudClip
+    public AudioClip ingredientClip, dudClip;
+
+    //Our audioSource
+    AudioSource audioSource;
 
     //Game Manager
     public GameObject gameManager;
@@ -26,8 +36,14 @@ public class BombMixController : MonoBehaviour {
     //The buttonmanager
     public ButtonManager bm;
 
+    //The text that displays the spell being fired
+    public Text spellText;
+
     //Spell info with combination strings that are valid with current combination
     public List<Spell> validSpells;
+
+    //The colors which will be used as the text
+    public Color fireColor, waterColor, earthColor, airColor;
 
     void Start()
     {
@@ -38,6 +54,36 @@ public class BombMixController : MonoBehaviour {
         validSpells = new List<Spell>();
         sl = gameManager.GetComponent<SpellLibrary>();
         //ResetMix();
+
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    //Helper function that plays the sound of the dud
+    public void PlayDudClip()
+    {
+        audioSource.clip = dudClip;
+        audioSource.Play();
+    }
+
+    //Helper function that plays the sound of the hold
+    public void PlayHoldClip()
+    {
+        audioSource.clip = holdClip;
+        audioSource.Play();
+    }
+
+    //Helper function that plays the sound of the release
+    public void PlayReleaseClip()
+    {
+        audioSource.clip = releaseClip;
+        audioSource.Play();
+    }
+
+    //Helper function that plays the sound of an ingredient being added.
+    public void PlayIngredientClip()
+    {
+        audioSource.clip = ingredientClip;
+        audioSource.Play();
     }
 	
 	// Update is called once per frame
@@ -46,11 +92,8 @@ public class BombMixController : MonoBehaviour {
         //If the combinatory string is 3 length
         if (!isCrafting())
         {
-            crafting = false;
+            bm.SetAllButtons(false);
         }
-
-        //Set ButtonManager active bools
-        bm.gameObject.active = crafting;
 	}
 
     //Spawns the correct bomb based on the spell
@@ -61,17 +104,35 @@ public class BombMixController : MonoBehaviour {
             GameObject temp = Instantiate(Resources.Load("SpellPrefabs/" + spell.name), bomb.transform.position, Quaternion.identity) as GameObject;
             temp.GetComponent<BombController>().DAMAGE = spell.damage;
             temp.GetComponent<BombController>().AFFINITY = spell.affinity;
+            temp.GetComponent<BombController>().TIER = spell.tier;
             crafting = false;
+
+            spellText.color = SelectColor(spell.affinity);
+            spellText.text = spell.name;
             return temp;
         }
         return null;
+    }
+
+    //Helper function that selects a color based on affinity
+    public Color SelectColor(Element affinity)
+    {
+        switch (affinity)
+        {
+            case Element.Air: return airColor;
+            case Element.Fire: return fireColor;
+            case Element.Earth: return earthColor;
+            case Element.Water: return waterColor;
+            case Element.Neutral: return Color.black;
+            default: return Color.black;
+        }
     }
 
     //Finalize spell. Selects the spell it exactly corresponds to.
     public void FinalizeSpell()
     {
         int index = 0;
-
+        bm.SetAllButtons(false);
         while (index < validSpells.Count)
         {
             if (!sl.CompareString(combination, validSpells[index].combination))
@@ -98,7 +159,7 @@ public class BombMixController : MonoBehaviour {
     public void UpdateValidSpells()
     {
         int index = 0;
-
+      
         while(index < validSpells.Count)
         {
             if(!sl.CompareString(combination, validSpells[index].combination))
@@ -119,15 +180,18 @@ public class BombMixController : MonoBehaviour {
         if(validSpells.Count == 0)
         {
             Debug.Log("Dud spell.");
-            spell = new Spell("DudSpell", 0, Element.Neutral, "");
+            spell = new Spell("DudSpell", 0, Element.Neutral, "", combination.Length);
+            PlayDudClip();
         }
         else if(validSpells.Count == 1)
         {
             Debug.Log("Found the spell: " + validSpells[0].name);
+            PlayIngredientClip();
         }
         else
         {
             Debug.Log("Found no specific spell: " + validSpells.Count);
+            PlayIngredientClip();
         }
     }
 
@@ -145,7 +209,7 @@ public class BombMixController : MonoBehaviour {
     public void ResetMix()
     {
         //Reset button visibility
-        crafting = true;
+        bm.SetAllButtons(true);
 
         //Reset spell
         spell = null;
@@ -160,5 +224,7 @@ public class BombMixController : MonoBehaviour {
         {
             validSpells.Add(sl.spellLibrary[i]);
         }
+
+        spellText.text = "";
     }
 }
