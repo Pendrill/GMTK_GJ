@@ -35,12 +35,12 @@ public class ElementController : MonoBehaviour {
         {
             col.GetComponent<BombMixController>().combination += value;
             col.GetComponent<BombMixController>().UpdateValidSpells();
-            bm.isSpawned = false;
+            bm.SetAllButtons(true);
             Destroy(gameObject);
         }
         else if(col.name == "ReturnToBagZone")
         {
-            bm.isSpawned = false;
+            bm.SetAllButtons(true);
             Destroy(gameObject);
         }
     }

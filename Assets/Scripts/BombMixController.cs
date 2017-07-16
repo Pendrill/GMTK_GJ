@@ -46,11 +46,8 @@ public class BombMixController : MonoBehaviour {
         //If the combinatory string is 3 length
         if (!isCrafting())
         {
-            crafting = false;
+            bm.SetAllButtons(false);
         }
-
-        //Set ButtonManager active bools
-        bm.gameObject.active = crafting;
 	}
 
     //Spawns the correct bomb based on the spell
@@ -61,6 +58,7 @@ public class BombMixController : MonoBehaviour {
             GameObject temp = Instantiate(Resources.Load("SpellPrefabs/" + spell.name), bomb.transform.position, Quaternion.identity) as GameObject;
             temp.GetComponent<BombController>().DAMAGE = spell.damage;
             temp.GetComponent<BombController>().AFFINITY = spell.affinity;
+            temp.GetComponent<BombController>().TIER = spell.tier;
             crafting = false;
             return temp;
         }
@@ -71,7 +69,7 @@ public class BombMixController : MonoBehaviour {
     public void FinalizeSpell()
     {
         int index = 0;
-
+        bm.SetAllButtons(false);
         while (index < validSpells.Count)
         {
             if (!sl.CompareString(combination, validSpells[index].combination))
@@ -119,7 +117,7 @@ public class BombMixController : MonoBehaviour {
         if(validSpells.Count == 0)
         {
             Debug.Log("Dud spell.");
-            spell = new Spell("DudSpell", 0, Element.Neutral, "");
+            spell = new Spell("DudSpell", 0, Element.Neutral, "", combination.Length);
         }
         else if(validSpells.Count == 1)
         {
@@ -145,7 +143,7 @@ public class BombMixController : MonoBehaviour {
     public void ResetMix()
     {
         //Reset button visibility
-        crafting = true;
+        bm.SetAllButtons(true);
 
         //Reset spell
         spell = null;
