@@ -35,6 +35,10 @@ public class FireButtonController : MonoBehaviour {
         {
             fireMode = true;
         }
+        else
+        {
+            bmc.GetComponent<BombMixController>().ResetMix();
+        }
     }
 
     void OnMouseOver()

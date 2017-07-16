@@ -44,7 +44,7 @@ public class BombController : MonoBehaviour {
         
         bombSize = MAX_SIZE * (LIFE / MAX_LIFE);
         transform.localScale = new Vector3(bombSize, bombSize, 1);
-        GetComponent<TrailRenderer>().startWidth = 0.1f * (LIFE / MAX_LIFE);
+        GetComponent<TrailRenderer>().startWidth = 0.5f * (LIFE / MAX_LIFE);
         GetComponent<TrailRenderer>().endWidth = 0;
 	}
 

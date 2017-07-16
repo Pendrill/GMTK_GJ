@@ -31,7 +31,7 @@ public class CameraShake : MonoBehaviour {
             {
                 timeStep = 1 - (timeStep - 1);
             }
-            Debug.Log(timeStep);
+            //Debug.Log(timeStep);
             float multiplier = Mathf.Lerp(0 * strength, 1.0f * strength, timeStep);
             Vector2 random = Random.insideUnitCircle * strength;
             transform.position = new Vector3(
