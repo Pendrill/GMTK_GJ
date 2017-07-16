@@ -77,6 +77,7 @@ public class FireButtonController : MonoBehaviour {
                 float magnitude = direction.magnitude;
                 GetComponent<LineRenderer>().SetPosition(1, transform.position);
                 bomb.GetComponent<Rigidbody2D>().AddForce(direction * magnitude * 30f, ForceMode2D.Impulse);
+                Camera.main.GetComponent<CameraShake>().ShakeCamera(0.1f, 0.1f);
                 //Debug.Log("Direction: " + direction + " Magnitude: " + magnitude);
                 bmc.GetComponent<BombMixController>().ResetMix();
                 bomb = null;

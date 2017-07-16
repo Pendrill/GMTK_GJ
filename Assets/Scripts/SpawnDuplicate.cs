@@ -6,6 +6,12 @@ using UnityEngine.UI;
 //Spawn's a duplicate from the button so that the player can drag it to the bomb
 public class SpawnDuplicate : MonoBehaviour {
 
+    //Player inventory
+    public InventoryScript inventory;
+
+    //The Item in this button
+    public Item itemType;
+
     //The element this button will spawn
     public GameObject element;
 
@@ -39,14 +45,25 @@ public class SpawnDuplicate : MonoBehaviour {
     //Creates a duplicate element to be mixed
 	public void Duplicate()
     {
-        //Buttonmanager is spawned.
-        bm.isSpawned = true;
+        //If we have the item
+        if (inventory.hasItem(itemType))
+        {
+            //Reduce the number of this item we own
+            inventory.ChangeItemValue(itemType, -1);
 
-        //Calculate the position to spawn our objects at
-        Vector3 worldPosition = Vector3.zero;
-        worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        worldPosition.z = 0;
+            //Buttonmanager is spawned.
+            bm.isSpawned = true;
 
-        GameObject temp = Instantiate(element, worldPosition, Quaternion.identity);
+            //Calculate the position to spawn our objects at
+            Vector3 worldPosition = Vector3.zero;
+            worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            worldPosition.z = 0;
+
+            GameObject temp = Instantiate(element, worldPosition, Quaternion.identity);
+        }
+        else //If we don't have this item, play a sound
+        {
+
+        }
     }
 }
