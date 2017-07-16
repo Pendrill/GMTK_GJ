@@ -72,7 +72,7 @@ public class EnemyManager : MonoBehaviour {
                     float damage = theGameManager.currentLevel * 5f;
                     if (thePlayerManager.gameObject.GetComponent<AmplifyStatus>() != null)
                     {
-                        damage *= GetComponent<AmplifyStatus>().MULTIPLIER;
+                        damage *= thePlayerManager.gameObject.GetComponent<AmplifyStatus>().MULTIPLIER;
                     }
                     thePlayerManager.currentHealth -= damage;
                     nextAttack = attackTime;

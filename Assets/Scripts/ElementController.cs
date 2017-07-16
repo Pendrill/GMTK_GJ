@@ -41,7 +41,27 @@ public class ElementController : MonoBehaviour {
         else if(col.name == "ReturnToBagZone")
         {
             bm.SetAllButtons(true);
+
+            InventoryScript inventory = GameObject.Find("Inventory").GetComponent<InventoryScript>();
+
+            inventory.ChangeItemValue(ValueToItem(value), 1);
+
+
             Destroy(gameObject);
+        }
+    }
+
+    //Helper function that turns value into element
+    public Item ValueToItem(char value)
+    {
+        switch (value)
+        {
+            case 'A': return Item.NimbusQuill;
+            case 'F': return Item.EmberPebble;
+            case 'W': return Item.MermaidScale;
+            case 'E': return Item.GaiaSeed;
+            default: Debug.Log("error, invalid value.");
+                return Item.Void;  
         }
     }
 }
