@@ -15,11 +15,13 @@ public class FireButtonController : MonoBehaviour {
 
     //The spell bomb in question
     public GameObject bomb;
+    ButtonManager theButtonManager;
 
     void Start()
     {
         //Ignore collision between UI and spell
         Physics2D.IgnoreLayerCollision(5, 8);
+        theButtonManager = FindObjectOfType<ButtonManager>();
 
 
 
@@ -29,10 +31,12 @@ public class FireButtonController : MonoBehaviour {
     void OnMouseDown()
     {
         //Debug.Log("Click");
+         
         bmc.GetComponent<BombMixController>().FinalizeSpell();
         bomb = bmc.GetComponent<BombMixController>().SpawnSpell();
         if (bomb != null)
         {
+            
             bmc.GetComponent<BombMixController>().PlayHoldClip();
             fireMode = true;
         }
@@ -72,6 +76,7 @@ public class FireButtonController : MonoBehaviour {
             }
             else if (Input.GetButton("Fire1"))
             {
+                theButtonManager.SetAllButtons(false);
                 fireMode = true;
                 GetComponent<LineRenderer>().SetPosition(0, transform.position);
 

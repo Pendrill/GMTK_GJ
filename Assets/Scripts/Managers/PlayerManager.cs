@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        maxHealth = 1.0f;
+        maxHealth = 100.0f;
         currentHealth = maxHealth;
         theGameManager = FindObjectOfType<GameManager>();
         offScreenStartingPos = new Vector3(-5, -6, 0);
