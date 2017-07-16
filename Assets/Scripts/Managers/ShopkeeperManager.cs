@@ -8,9 +8,10 @@ public class ShopkeeperManager : MonoBehaviour {
     public GameState currentState;
     float lastStateChange = 0.0f;
     public string[] barteringWords;
+    public GameObject Bucket;
 
     float time, alpha, nextAttack;
-    SpriteRenderer shopKeepRen;
+    SpriteRenderer shopKeepRen,bucketRen;
 
     PlayerManager thePlayerManager;
     GameManager theGameManager;
@@ -22,7 +23,9 @@ public class ShopkeeperManager : MonoBehaviour {
         theGameManager = FindObjectOfType<GameManager>();
         thePlayerManager = FindObjectOfType<PlayerManager>();
         shopKeepRen = GetComponent<SpriteRenderer>();
+        bucketRen = Bucket.GetComponent<SpriteRenderer>();
         nextAttack = 2.0f;
+        
 	}
 	
 	// Update is called once per frame
@@ -42,6 +45,7 @@ public class ShopkeeperManager : MonoBehaviour {
             theGameManager.setCurrentState(GameManager.GameState.Wait);
             thePlayerManager.setCurrentState(PlayerManager.GameState.Wait);
             setCurrentState(GameState.die);
+            time = 0;
         }
         switch (currentState)
         {
@@ -54,6 +58,7 @@ public class ShopkeeperManager : MonoBehaviour {
                 alpha = Mathf.Lerp(0.0f, 1.0f, time);
                 tmp.a = alpha;
                 shopKeepRen.color = tmp;
+                bucketRen.color = tmp;
                 if (getStateElapsed() > 1.0f)
                 {
                     setCurrentState(GameState.wait);
@@ -67,6 +72,11 @@ public class ShopkeeperManager : MonoBehaviour {
 
                 break;
             case GameState.attack:
+                time += Time.deltaTime * 2;
+                Color tmp4 = bucketRen.color;
+                alpha = Mathf.Lerp(1.0f, 0.0f, time);
+                tmp4.a = alpha;
+                bucketRen.color = tmp4;
                 Debug.Log("You've met a terrible fate haven't you");
                 nextAttack -= Time.deltaTime;
                 if (nextAttack <= 0.0f)
@@ -82,6 +92,7 @@ public class ShopkeeperManager : MonoBehaviour {
                 alpha = Mathf.Lerp(1.0f, 0.0f, time);
                 tmp2.a = alpha;
                 shopKeepRen.color = tmp2;
+                bucketRen.color = tmp2;
                 if (getStateElapsed() > 1.0f)
                 {
                     setCurrentState(GameState.wait);
@@ -97,6 +108,7 @@ public class ShopkeeperManager : MonoBehaviour {
                 alpha = Mathf.Lerp(1.0f, 0.0f, time);
                 tmp3.a = alpha;
                 shopKeepRen.color = tmp3;
+                bucketRen.color = tmp3;
                 if (getStateElapsed() > 1.0f)
                 {
                     setCurrentState(GameState.wait);
@@ -117,5 +129,13 @@ public class ShopkeeperManager : MonoBehaviour {
     float getStateElapsed()
     {
         return Time.time - lastStateChange;
+    }
+
+    
+    private void OnTriggerEnter2D(Collider2D Bomb)
+    {
+        Destroy(Bomb.gameObject);
+        setCurrentState(GameState.attack);
+        currentHealth -= 1;
     }
 }

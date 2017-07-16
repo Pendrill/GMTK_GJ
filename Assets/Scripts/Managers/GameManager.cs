@@ -141,65 +141,101 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.ItemCollection:
                 Debug.Log("You have collected this: insert name here");
-                Collection.text = "You picked up: ";
                 int fire = 0, water = 0, earth = 0, air = 0;
-                for (int i = 0; i < totalDrop; i++)
+                if (!shopKeepLevel)
                 {
-                    if(theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.EmberPebble)
+                    Collection.text = "You picked up: ";
+                    
+                    for (int i = 0; i < totalDrop; i++)
                     {
-                        fire += 1;
-                        //theInventoryScript.ChangeItemValue(Item.EmberPebble, 1);
+                        if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.EmberPebble)
+                        {
+                            fire += 1;
+                            //theInventoryScript.ChangeItemValue(Item.EmberPebble, 1);
+                        }
+                        else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.GaiaSeed)
+                        {
+                            earth += 1;
+                            //theInventoryScript.ChangeItemValue(Item.GaiaSeed, 1);
+                        }
+                        else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.NimbusQuill)
+                        {
+                            air += 1;
+                            //theInventoryScript.ChangeItemValue(Item.NimbusQuill, 1);
+                        }
+                        else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.MermaidScale)
+                        {
+                            water += 1;
+                            //theInventoryScript.ChangeItemValue(Item.MermaidScale, 1);
+                        }
                     }
-                    else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.GaiaSeed)
-                    {
-                        earth += 1;
-                        //theInventoryScript.ChangeItemValue(Item.GaiaSeed, 1);
-                    }
-                    else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.NimbusQuill)
-                    {
-                        air += 1;
-                        //theInventoryScript.ChangeItemValue(Item.NimbusQuill, 1);
-                    }
-                    else if (theEnemyManager.GetComponent<EnemyType>().drop[i] == Item.MermaidScale)
-                    {
-                        water += 1;
-                        //theInventoryScript.ChangeItemValue(Item.MermaidScale, 1);
-                    }
-                }
-                if (fire != 0)
-                {
-                    Collection.text += "\n Ember Pebble: " + fire;
-                }
-                if (earth != 0)
-                {
-                    Collection.text += "\n GaiaSeed: " + earth;
-                }
-                if(air != 0)
-                {
-                    Collection.text += "\n NimbusQuill: " + air;
-                }
-                if(water != 0)
-                {
-                    Collection.text += "\n MermaidScale: " + water;
-                }
-                Collection.gameObject.SetActive(true);
-                if(getStateElapsed() > 3.0f)
-                {
                     if (fire != 0)
                     {
-                        theInventoryScript.ChangeItemValue(Item.EmberPebble, fire);
+                        Collection.text += "\n Ember Pebble: " + fire;
                     }
                     if (earth != 0)
                     {
-                        theInventoryScript.ChangeItemValue(Item.GaiaSeed, earth);
+                        Collection.text += "\n GaiaSeed: " + earth;
                     }
                     if (air != 0)
                     {
-                        theInventoryScript.ChangeItemValue(Item.NimbusQuill, air);
+                        Collection.text += "\n NimbusQuill: " + air;
                     }
                     if (water != 0)
                     {
-                        theInventoryScript.ChangeItemValue(Item.MermaidScale, water);
+                        Collection.text += "\n MermaidScale: " + water;
+                    }
+                    Collection.gameObject.SetActive(true);
+                }else
+                {
+                    if(thePlayerManager.currentHealth == thePlayerManager.maxHealth)
+                    {
+                       // thePlayerManager.currentHealth -= 25;
+                       // thePlayerManager.maxHealth += 50;
+                        Collection.text = "Thank you for these ressources stranger. \nYou seem in good health, let me enhances your abilities\n\nYour max health pool has increased to: " + thePlayerManager.maxHealth + 50 + "\nUnfortunately, you had to sustain 25 damage.";
+                    }
+                    else
+                    {
+                        //thePlayerManager.currentHealth += 25;
+                        //Mathf.Clamp(thePlayerManager.currentHealth, 0, thePlayerManager.maxHealth);
+                        Collection.text = "Thank you for theses ressources stranger.\nLet me heal your wounds";
+                    }
+                    Collection.gameObject.SetActive(true);
+                }
+                if(getStateElapsed() > 4.0f)
+                {
+                    if (!shopKeepLevel)
+                    {
+                        if (fire != 0)
+                        {
+                            theInventoryScript.ChangeItemValue(Item.EmberPebble, fire);
+                        }
+                        if (earth != 0)
+                        {
+                            theInventoryScript.ChangeItemValue(Item.GaiaSeed, earth);
+                        }
+                        if (air != 0)
+                        {
+                            theInventoryScript.ChangeItemValue(Item.NimbusQuill, air);
+                        }
+                        if (water != 0)
+                        {
+                            theInventoryScript.ChangeItemValue(Item.MermaidScale, water);
+                        }
+                    }else
+                    {
+                        if (thePlayerManager.currentHealth == thePlayerManager.maxHealth)
+                        {
+                            thePlayerManager.currentHealth -= 25;
+                            thePlayerManager.maxHealth += 50;
+                            //Collection.text = "Thank you for these ressources stranger. \nYou seem in good health, let me enhances your abilities\n\nYour max health pool has increased to: " + thePlayerManager.maxHealth + "\nUnfortunately, you had to sustain 25 damage.";
+                        }
+                        else
+                        {
+                            //thePlayerManager.currentHealth += 25;
+                            thePlayerManager.currentHealth = Mathf.Clamp(thePlayerManager.currentHealth += 25, 0, thePlayerManager.maxHealth) ;
+                            //Collection.text = "Thank you for theses ressources stranger.\nLet me heal your wounds";
+                        }
                     }
                     Collection.gameObject.SetActive(false);
                     setCurrentState(GameState.RestartPhase);
@@ -232,7 +268,7 @@ public class GameManager : MonoBehaviour {
                     {
                         Destroy(theEnemyManager.gameObject);
                         int spawnshop = Random.Range(1, 11);
-                        if(spawnshop <= 2)
+                        if(spawnshop <= 10)
                         {
                             //Instantiate the shopkeeper
                             Instantiate(shopkeeper);
