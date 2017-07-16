@@ -63,7 +63,14 @@ public class FireButtonController : MonoBehaviour {
 
         if (fireMode)
         {
-            if (Input.GetButton("Fire1"))
+            if(bomb == null)
+            {
+                GetComponent<LineRenderer>().SetPosition(1, transform.position);
+                bmc.GetComponent<BombMixController>().ResetMix();
+                bomb = null;
+                fireMode = false;
+            }
+            else if (Input.GetButton("Fire1"))
             {
                 fireMode = true;
                 GetComponent<LineRenderer>().SetPosition(0, transform.position);
