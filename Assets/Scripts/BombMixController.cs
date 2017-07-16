@@ -5,6 +5,12 @@ using UnityEngine;
 //Controls mixing bombs
 public class BombMixController : MonoBehaviour {
 
+    //The sounds we play when holding and releasing bomb
+    public AudioClip holdClip, releaseClip;
+
+    //Our audioSource
+    AudioSource audioSource;
+
     //Game Manager
     public GameObject gameManager;
 
@@ -38,6 +44,22 @@ public class BombMixController : MonoBehaviour {
         validSpells = new List<Spell>();
         sl = gameManager.GetComponent<SpellLibrary>();
         //ResetMix();
+
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    //Helper function that plays the sound of the hold
+    public void PlayHoldClip()
+    {
+        audioSource.clip = holdClip;
+        audioSource.Play();
+    }
+
+    //Helper function that plays the sound of the release
+    public void PlayReleaseClip()
+    {
+        audioSource.clip = releaseClip;
+        audioSource.Play();
     }
 	
 	// Update is called once per frame
