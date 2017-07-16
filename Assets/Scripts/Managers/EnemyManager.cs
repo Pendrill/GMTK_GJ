@@ -66,7 +66,7 @@ public class EnemyManager : MonoBehaviour {
                 if(nextAttack <= 0.0f)
                 {
                     Debug.Log("the ennemy performed an attack");
-                    thePlayerManager.currentHealth -= 5;
+                    //thePlayerManager.currentHealth -= 5;
                     nextAttack = 5.0f;
                 }
                 break;

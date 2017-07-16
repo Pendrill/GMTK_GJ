@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114516121679903940}
   - component: {fileID: 96642994279776272}
   - component: {fileID: 82736083739662734}
+  - component: {fileID: 114033769043739480}
   m_Layer: 8
   m_Name: MagmaSlide
   m_TagString: Untagged
@@ -281,6 +282,17 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
+--- !u!114 &114033769043739480
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259018854022758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f643842969143a41a6e3a3db8b4b36c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114516121679903940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,6 +311,7 @@ MonoBehaviour:
   LIFE: 10
   TIER: 0
   bounces: 0
+  powerColors: []
   bombSize: 0
 --- !u!212 &212202774530342446
 SpriteRenderer:

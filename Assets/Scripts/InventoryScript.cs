@@ -120,7 +120,7 @@ public class InventoryScript : MonoBehaviour {
                 Debug.Log("Error: No item chosen.");
                 break;
         }
-        containedItems[index] += value;
+        containedItems[index] = Mathf.Clamp(containedItems[index] + value, 0, int.MaxValue);
     }
 }
 

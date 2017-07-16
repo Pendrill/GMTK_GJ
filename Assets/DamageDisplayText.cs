@@ -12,7 +12,7 @@ public class DamageDisplayText : MonoBehaviour {
     GameObject bmc;
 
     //The damage we used and dealt to the opponent.
-    public int damage = 0;
+    public string value;
 
     //The affinity of the spell we represent
     public Element affinity = Element.Neutral;
@@ -32,7 +32,7 @@ public class DamageDisplayText : MonoBehaviour {
 	void Update () {
         textColor = SelectColor(affinity);
         
-        GetComponent<Text>().text = damage + "";		
+        GetComponent<Text>().text = value;		
 	}
 
     //Helper that selects the correct color

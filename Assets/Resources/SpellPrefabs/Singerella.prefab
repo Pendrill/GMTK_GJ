@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114801557086259420}
   - component: {fileID: 96542811373994560}
   - component: {fileID: 82980627646105130}
+  - component: {fileID: 114430694875055072}
   m_Layer: 8
   m_Name: Singerella
   m_TagString: Untagged
@@ -281,6 +282,17 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
+--- !u!114 &114430694875055072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1232461019603938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6e51ee01554d8240a2c3db85f2f9fe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114801557086259420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,6 +311,7 @@ MonoBehaviour:
   LIFE: 10
   TIER: 0
   bounces: 0
+  powerColors: []
   bombSize: 0
 --- !u!212 &212205345334423636
 SpriteRenderer:

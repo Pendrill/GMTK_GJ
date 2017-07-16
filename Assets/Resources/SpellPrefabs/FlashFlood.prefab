@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114619709146676150}
   - component: {fileID: 96382273297383712}
   - component: {fileID: 82512618857949442}
+  - component: {fileID: 114776849057547544}
   m_Layer: 8
   m_Name: FlashFlood
   m_TagString: Untagged
@@ -305,7 +306,20 @@ MonoBehaviour:
   LIFE: 10
   TIER: 0
   bounces: 0
+  powerColors: []
   bombSize: 0
+--- !u!114 &114776849057547544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576471301118024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ac590ede19b894289d46a134e87b18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfx: {fileID: 0}
 --- !u!212 &212400516290677360
 SpriteRenderer:
   m_ObjectHideFlags: 1

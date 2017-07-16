@@ -53,11 +53,8 @@ public class BombMixController : MonoBehaviour {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 3, 0));
         worldPos.z = 0;
         transform.position = worldPos;
-
-        validSpells = new List<Spell>();
-        sl = gameManager.GetComponent<SpellLibrary>();
+    
         //ResetMix();
-
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -222,7 +219,16 @@ public class BombMixController : MonoBehaviour {
         combination = "";
 
         //Reset valid spells list
-        validSpells.Clear();
+        if(validSpells != null)
+        {
+            validSpells.Clear();
+        }
+        else
+        {
+            validSpells = new List<Spell>();
+            sl = gameManager.GetComponent<SpellLibrary>();
+        }
+       
 
         for(int i = 0; i < sl.spellLibrary.Length; i++)
         {

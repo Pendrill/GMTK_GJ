@@ -52,6 +52,7 @@ public class BombController : MonoBehaviour {
         MAX_SIZE = bombSize;
         audioSource = GetComponent<AudioSource>();
         glowObject = transform.GetChild(0).gameObject;
+        
 	}
 	
 	// Update is called once per frame
@@ -108,7 +109,7 @@ public class BombController : MonoBehaviour {
         //Spawn the damage value where we hit the enemy
         GameObject damageIndicator = Instantiate(Resources.Load("Prefabs/HitIndicator"), Camera.main.WorldToScreenPoint(transform.position), Quaternion.identity, GameObject.Find("Canvas").transform) as GameObject;
         damageIndicator.GetComponent<DamageDisplayText>().affinity = AFFINITY;
-        damageIndicator.GetComponent<DamageDisplayText>().damage = DAMAGE;
+        damageIndicator.GetComponent<DamageDisplayText>().value = DAMAGE + "";
         damageIndicator.GetComponent<DamageDisplayText>().StartCoroutine(damageIndicator.GetComponent<DamageDisplayText>().BeginFade());
 
 
@@ -136,6 +137,7 @@ public class BombController : MonoBehaviour {
         if (col.collider.CompareTag("Monster"))
         {
             Camera.main.GetComponent<CameraShake>().ShakeCamera(0.5f, 0.3f);
+            //col.collider.GetComponent<EnemyManager>().currentHealth -= DAMAGE;
             StartCoroutine(KillBomb());
         }
         else

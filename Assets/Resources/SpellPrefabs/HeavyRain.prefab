@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 114591480809227492}
   - component: {fileID: 96841189435152548}
   - component: {fileID: 82653800887349268}
+  - component: {fileID: 114887628302139206}
   m_Layer: 8
   m_Name: HeavyRain
   m_TagString: Untagged
@@ -299,7 +300,20 @@ MonoBehaviour:
   LIFE: 10
   TIER: 0
   bounces: 0
+  powerColors: []
   bombSize: 0
+--- !u!114 &114887628302139206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1613654526784698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8887b70de82595b4baadaf524b2648ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfx: {fileID: 8300000, guid: 89072deafd6ef1d49bf51bc6d5310d83, type: 3}
 --- !u!212 &212793867998409894
 SpriteRenderer:
   m_ObjectHideFlags: 1
