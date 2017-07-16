@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 70189ff3a7710e448a3699101689a64f
+timeCreated: 1500210381
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Children of the Starlight
+  fontNames:
+  - Children of the Starlight
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

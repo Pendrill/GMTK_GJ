@@ -77,10 +77,10 @@ public class BombController : MonoBehaviour {
     {
         //Give it 3 seconds to play sounds and other effects to die down
         float timer = 3f;
-       
+        GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         GetComponent<Collider2D>().enabled = false;
         GetComponent<Renderer>().enabled = false;
-        GetComponent<TrailRenderer>().enabled = false;
+       // GetComponent<TrailRenderer>().enabled = false;
         PlayHitClip();
         while(timer > 0f)
         {
