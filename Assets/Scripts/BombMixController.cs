@@ -45,6 +45,9 @@ public class BombMixController : MonoBehaviour {
     //The colors which will be used as the text
     public Color fireColor, waterColor, earthColor, airColor;
 
+    //The colors that display the power of a spell
+    public Color[] powerColors;
+
     void Start()
     {
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 3, 0));
@@ -105,6 +108,7 @@ public class BombMixController : MonoBehaviour {
             temp.GetComponent<BombController>().DAMAGE = spell.damage;
             temp.GetComponent<BombController>().AFFINITY = spell.affinity;
             temp.GetComponent<BombController>().TIER = spell.tier;
+            temp.GetComponent<BombController>().powerColors = powerColors;
             crafting = false;
 
             spellText.color = SelectColor(spell.affinity);
