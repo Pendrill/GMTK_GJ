@@ -61,7 +61,7 @@ public class DamageDisplayText : MonoBehaviour {
         {
             //Calculate our transparency
             transparency = Mathf.Lerp(0.0f, 1.0f, timer / 2f);
-            Debug.Log(transparency);
+            //Debug.Log(transparency);
 
             //Apply transparency
             GetComponent<Text>().color =

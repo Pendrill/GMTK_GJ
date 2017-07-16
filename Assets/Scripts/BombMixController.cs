@@ -56,6 +56,16 @@ public class BombMixController : MonoBehaviour {
     
         //ResetMix();
         audioSource = GetComponent<AudioSource>();
+
+        //Set colors on all button text
+        bm.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = fireColor;
+        bm.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = waterColor;
+
+        bm.transform.GetChild(2).GetChild(0).GetComponent<Text>().color = earthColor;
+
+        bm.transform.GetChild(3).GetChild(0).GetComponent<Text>().color = airColor;
+
+
     }
 
     //Helper function that plays the sound of the dud
@@ -160,8 +170,18 @@ public class BombMixController : MonoBehaviour {
     public void UpdateValidSpells()
     {
         int index = 0;
-      
-        while(index < validSpells.Count)
+
+        if(validSpells == null)
+        {
+            validSpells = new List<Spell>();
+            sl = gameManager.GetComponent<SpellLibrary>();
+            for (int i = 0; i < sl.spellLibrary.Length; i++)
+            {
+                validSpells.Add(sl.spellLibrary[i]);
+            }
+        }
+
+        while (index < validSpells.Count)
         {
             if(!sl.CompareString(combination, validSpells[index].combination))
             {
@@ -212,23 +232,17 @@ public class BombMixController : MonoBehaviour {
         //Reset button visibility
         bm.SetAllButtons(true);
 
+        //Reset valid spells list
+        if (validSpells != null)
+        {
+            validSpells.Clear();
+        }
+
         //Reset spell
         spell = null;
 
         //Reset combinatory string
         combination = "";
-
-        //Reset valid spells list
-        if(validSpells != null)
-        {
-            validSpells.Clear();
-        }
-        else
-        {
-            validSpells = new List<Spell>();
-            sl = gameManager.GetComponent<SpellLibrary>();
-        }
-       
 
         for(int i = 0; i < sl.spellLibrary.Length; i++)
         {

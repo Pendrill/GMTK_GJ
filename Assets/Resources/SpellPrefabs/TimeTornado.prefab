@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114186911581499696}
   - component: {fileID: 96822219688187710}
   - component: {fileID: 82234649137616588}
+  - component: {fileID: 114414708675813376}
   m_Layer: 8
   m_Name: TimeTornado
   m_TagString: Untagged
@@ -299,7 +300,20 @@ MonoBehaviour:
   LIFE: 10
   TIER: 0
   bounces: 0
+  powerColors: []
   bombSize: 0
+--- !u!114 &114414708675813376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1277254258818712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd978497ad4d6e47855b0a1b0f03773, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfx: {fileID: 0}
 --- !u!212 &212543977753920940
 SpriteRenderer:
   m_ObjectHideFlags: 1

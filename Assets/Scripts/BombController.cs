@@ -137,7 +137,15 @@ public class BombController : MonoBehaviour {
         if (col.collider.CompareTag("Monster"))
         {
             Camera.main.GetComponent<CameraShake>().ShakeCamera(0.5f, 0.3f);
-            //col.collider.GetComponent<EnemyManager>().currentHealth -= DAMAGE;
+            if(col.collider.GetComponent<EnemyType>() != null)
+            {
+                DAMAGE = (int)col.collider.gameObject.GetComponent<EnemyType>().CalculateAndApplyDamage(this);
+            }
+            else
+            {
+                DAMAGE = 1 * bounces + TIER;
+            }
+            
             StartCoroutine(KillBomb());
         }
         else

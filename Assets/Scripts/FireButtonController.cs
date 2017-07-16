@@ -15,11 +15,19 @@ public class FireButtonController : MonoBehaviour {
 
     //The spell bomb in question
     public GameObject bomb;
+    ButtonManager theButtonManager;
+    public GameManager theGamemanager;
+    public PlayerManager thePlayerManager;
+    public ShopkeeperManager theShopkeeperManager;
 
     void Start()
     {
         //Ignore collision between UI and spell
         Physics2D.IgnoreLayerCollision(5, 8);
+        theButtonManager = FindObjectOfType<ButtonManager>();
+        theGamemanager = FindObjectOfType<GameManager>();
+        thePlayerManager = FindObjectOfType<PlayerManager>();
+        theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
 
 
 
@@ -29,15 +37,25 @@ public class FireButtonController : MonoBehaviour {
     void OnMouseDown()
     {
         //Debug.Log("Click");
+         
         bmc.GetComponent<BombMixController>().FinalizeSpell();
         bomb = bmc.GetComponent<BombMixController>().SpawnSpell();
         if (bomb != null)
         {
+            
             bmc.GetComponent<BombMixController>().PlayHoldClip();
             fireMode = true;
         }
         else
         {
+            if (theGamemanager.shopKeepLevel)
+            {
+                Debug.Log("should theshopkeepleave?");
+                theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
+                thePlayerManager.setCurrentState(PlayerManager.GameState.Wait);
+                theGamemanager.setCurrentState(GameManager.GameState.Wait);
+                theShopkeeperManager.setCurrentState(ShopkeeperManager.GameState.leave);
+            }
             bmc.GetComponent<BombMixController>().ResetMix();
         }
     }
@@ -65,6 +83,7 @@ public class FireButtonController : MonoBehaviour {
         {
             if(bomb == null)
             {
+                
                 GetComponent<LineRenderer>().SetPosition(1, transform.position);
                 bmc.GetComponent<BombMixController>().ResetMix();
                 bomb = null;
@@ -72,6 +91,7 @@ public class FireButtonController : MonoBehaviour {
             }
             else if (Input.GetButton("Fire1"))
             {
+                theButtonManager.SetAllButtons(false);
                 fireMode = true;
                 GetComponent<LineRenderer>().SetPosition(0, transform.position);
 

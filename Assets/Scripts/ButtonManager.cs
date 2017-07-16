@@ -15,6 +15,11 @@ public class ButtonManager : MonoBehaviour {
     //The list of buttons under this manager
     public Button[] buttons = new Button[4];
 
+
+        //Always set to opposite of whether or not something has been spawned.
+        //SetAllButtons(!isSpawned);
+	
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -28,13 +33,17 @@ public class ButtonManager : MonoBehaviour {
     }
 
 
+
     //Sets the interactable value of all the buttons under this manager.
     public void SetAllButtons(bool interactable)
     {
         for (int i = 0; i < buttons.Length; i++)
         {
+            //buttons[i].GetComponent<SpawnDuplicate>().gameObject.SetActive(interactable);
+
             //buttons[i].GetComponent<SpawnDuplicate>().isActive = interactable;
             buttons[i].gameObject.SetActive(interactable);
+
         }
     }
 }

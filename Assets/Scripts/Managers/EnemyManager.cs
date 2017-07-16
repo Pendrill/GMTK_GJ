@@ -11,19 +11,21 @@ public class EnemyManager : MonoBehaviour {
     public string[] fightingWords;
 
     SpriteRenderer enemyRenderer;
-    float alpha, nextAttack;
+    float alpha;
+    public float nextAttack;
+    public float attackTime = 5f;
 
     GameManager theGameManager;
     PlayerManager thePlayerManager;
 
 	// Use this for initialization
-	void Start () {
-        maxHealth = 100.0f;
-        currentHealth = maxHealth;
+	void Start () {       
         enemyRenderer = GetComponent<SpriteRenderer>();
         theGameManager = FindObjectOfType<GameManager>();
         thePlayerManager = FindObjectOfType<PlayerManager>();
-        nextAttack = 5f;
+        maxHealth = 9.0f + theGameManager.currentLevel;
+        currentHealth = maxHealth;
+        nextAttack = attackTime;
         //setCurrentState(GameState.appear);
 	}
 	
@@ -65,13 +67,20 @@ public class EnemyManager : MonoBehaviour {
                 nextAttack -= Time.deltaTime;
                 if(nextAttack <= 0.0f)
                 {
-                    Debug.Log("the ennemy performed an attack");
-                    //thePlayerManager.currentHealth -= 5;
-                    nextAttack = 5.0f;
+                    Debug.Log("the enemy performed an attack");
+                    Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f, 0.1f);
+                    float damage = theGameManager.currentLevel * 5f;
+                    if (thePlayerManager.gameObject.GetComponent<AmplifyStatus>() != null)
+                    {
+                        damage *= GetComponent<AmplifyStatus>().MULTIPLIER;
+                    }
+                    thePlayerManager.currentHealth -= damage;
+                    nextAttack = attackTime;
                 }
                 break;
             case GameState.die:
                 currentHealth = 1;
+                GetComponent<Collider2D>().enabled = false;
                 time += Time.deltaTime * 2;
                 Color tmp2 = enemyRenderer.color;
                 alpha = Mathf.Lerp(1.0f, 0.0f, time);
@@ -97,5 +106,10 @@ public class EnemyManager : MonoBehaviour {
     float getStateElapsed()
     {
         return Time.time - lastStateChange;
+    }
+    public void dealDamage(float damage)
+    {
+        currentHealth -= damage;
+        Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 }
