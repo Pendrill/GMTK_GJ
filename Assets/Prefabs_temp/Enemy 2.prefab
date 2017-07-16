@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 212914901494038114}
   - component: {fileID: 114967295581743750}
   m_Layer: 0
-  m_Name: Enemy 1
+  m_Name: Enemy 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,6 +55,12 @@ MonoBehaviour:
   maxHealth: 0
   currentHealth: 0
   currentState: 0
+  fightingWords:
+  - Fight!
+  - Let's Battle!
+  - 1v1 me!
+  - Come At Me!
+  - You Wanna Fight
 --- !u!212 &212914901494038114
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -88,7 +94,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.14244424, g: 0.3897059, b: 0, a: 0}
+  m_Color: {r: 0.9191176, g: 0, b: 0.019016072, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

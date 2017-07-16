@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour {
     //have access to the gameManager
     GameManager theGameManager;
     EnemyManager theEnemyManager;
+    ShopkeeperManager theShopkeeperManager;
 
     //List of states the player character can access
     public enum GameState { EnterScene, Fight, LeaveScene, Die, Wait}
@@ -53,8 +54,16 @@ public class PlayerManager : MonoBehaviour {
                 transform.localScale = new Vector3(Mathf.SmoothStep(30, 15, time), Mathf.SmoothStep(30, 15, time), Mathf.SmoothStep(30, 15, time));//Vector3.Lerp(new Vector3(30, 30, 30), new Vector3(15, 15, 15), Time.time/2);
                 if (getStateElapsed() > 2.0f)
                 {
-                    theEnemyManager = FindObjectOfType<EnemyManager>();
-                    theEnemyManager.setCurrentState(EnemyManager.GameState.appear);
+                    if (theGameManager.shopKeepLevel)
+                    {
+                        theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
+                        theShopkeeperManager.setCurrentState(ShopkeeperManager.GameState.appear);
+                    }
+                    else
+                    {
+                        theEnemyManager = FindObjectOfType<EnemyManager>();
+                        theEnemyManager.setCurrentState(EnemyManager.GameState.appear);
+                    }                    
                     setCurrentState(GameState.Wait);
                     time = 0;
                 }

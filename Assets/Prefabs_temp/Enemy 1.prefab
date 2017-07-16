@@ -55,6 +55,12 @@ MonoBehaviour:
   maxHealth: 0
   currentHealth: 0
   currentState: 0
+  fightingWords:
+  - Fight!
+  - Let's Battle!
+  - 1v1 me!
+  - Come At Me!
+  - You Wanna Fight
 --- !u!212 &212914901494038114
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -88,7 +94,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.14244424, g: 0.3897059, b: 0, a: 0}
+  m_Color: {r: 0.43576992, g: 0.46087873, b: 0.9558824, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

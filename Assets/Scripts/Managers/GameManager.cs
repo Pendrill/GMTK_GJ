@@ -12,10 +12,14 @@ public class GameManager : MonoBehaviour {
     public Transform currentEnemy;
     public EnemyManager theEnemyManager;
     //Reference to the shopkeeper encountered
-    public Transform shopkeeper;
+    public GameObject shopkeeper;
     public ShopkeeperManager theShopkeeperManager;
 
     public GameObject[] enemies;
+    public GameObject[] backgrounds;
+
+    int currentLevel, lastLevelShop;
+    public bool shopKeepLevel;
 
     //List of all the possible states
     public enum GameState {Wait, IntroSequence, PauseBeforeStart, FightingEnemy, OutroSequence, ItemCollection, ShopkeeperSequence, PauseScreen, GameOverSequence, RestartPhase};
@@ -37,6 +41,8 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        currentLevel = 1;
+        lastLevelShop = 1;
         //setCurrentState(GameState.IntroSequence);
         Instantiate(enemies[Random.Range(0, 3)]);
         thePlayerManager = FindObjectOfType<PlayerManager>();
@@ -52,17 +58,25 @@ public class GameManager : MonoBehaviour {
                 time = 0f;
                 break;
             case GameState.IntroSequence:
-                theEnemyManager.currentHealth = 100;
-                thePlayerManager.currentHealth = 5;
+                //theEnemyManager.currentHealth = 100;
+                //thePlayerManager.currentHealth = 5;
                 thePlayerManager.setCurrentState(PlayerManager.GameState.EnterScene);
                 //figure out whether the player encounters a shopkeeper or an enemy
                 //update the (enemy or shopkeeper) and player variables
                 //have the player move up
                 // have the ennemy or shopkeeper
                 //move on to the pause before start
-                theEnemyManager = FindObjectOfType<EnemyManager>();
-                theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
-                theEnemyManager.setCurrentState(EnemyManager.GameState.wait);
+                if (shopKeepLevel)
+                {
+                    //WE NEED TO DISABLE THIS VALUE AT SOME POINT!!!!!
+                    theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
+                    //set the shopkeeper to wait                    
+                }
+                else
+                {
+                    theEnemyManager = FindObjectOfType<EnemyManager>();
+                    theEnemyManager.setCurrentState(EnemyManager.GameState.wait);
+                }  
                 setCurrentState(GameState.Wait);
                 break;
             case GameState.PauseBeforeStart:
@@ -130,7 +144,7 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.RestartPhase:
                 //this is where we change the background, music, ennemies, shopkeep, etc
-                
+                shopKeepLevel = false;
                 time += Time.deltaTime * 2;
                 Color tmp2 = fadeToBlack.color;
                 alpha = Mathf.Lerp(1.0f, 0.0f, time / 2);
@@ -138,8 +152,72 @@ public class GameManager : MonoBehaviour {
                 fadeToBlack.color = tmp2;
                 if(getStateElapsed() > 2.0f)
                 {
-                    Destroy(theEnemyManager.gameObject);
-                    Instantiate(enemies[Random.Range(0, 3)]);
+                    //attempts to spawn a shopkeeper
+                    int levelsSinceShop = currentLevel - lastLevelShop;
+                    currentLevel += 1;
+                    //level that just ended was a shop, automatically spawn a monster for next level
+                    if (levelsSinceShop == 0 && currentLevel != 2)
+                    {
+                        Destroy(theShopkeeperManager.gameObject);
+                        Instantiate(enemies[Random.Range(0, 3)]);
+                        
+                    }else if(levelsSinceShop < 4)
+                    {
+                        Destroy(theEnemyManager.gameObject);
+                        int spawnshop = Random.Range(1, 11);
+                        if(spawnshop <= 2)
+                        {
+                            //Instantiate the shopkeeper
+                            Instantiate(shopkeeper);
+                            shopKeepLevel = true;
+                            lastLevelShop = currentLevel;
+                        }else
+                        {
+                            Instantiate(enemies[Random.Range(0, 3)]);
+                        }                        
+                    }
+                    else if(levelsSinceShop < 8)
+                    {
+                        Destroy(theEnemyManager.gameObject);
+                        int spawnshop = Random.Range(1, 11);
+                        if (spawnshop <= 4)
+                        {
+                            //Instantiate the shopkeeper
+                            Instantiate(shopkeeper);
+                            shopKeepLevel = true;
+                            lastLevelShop = currentLevel;
+                        }
+                        else
+                        {
+                            Instantiate(enemies[Random.Range(0, 3)]);
+                        }
+                    }
+                    else if(levelsSinceShop < 10)
+                    {
+                        Destroy(theEnemyManager.gameObject);
+                        int spawnshop = Random.Range(1, 11);
+                        if (spawnshop <= 6)
+                        {
+                            //Instantiate the shopkeeper
+                            Instantiate(shopkeeper);
+                            shopKeepLevel = true;
+                            lastLevelShop = currentLevel;
+                        }
+                        else
+                        {
+                            Instantiate(enemies[Random.Range(0, 3)]);
+                        }
+                    }
+                    else if(levelsSinceShop >= 10)
+                    {
+                        Destroy(theEnemyManager.gameObject);
+                        //instantiate the shopkeeper
+                        Instantiate(shopkeeper);
+                        shopKeepLevel = true;
+                        lastLevelShop = currentLevel;
+                    }
+                    //Destroy(theEnemyManager.gameObject);
+                    //Instantiate(enemies[Random.Range(0, 3)]);
                     time = 0;
                     setCurrentState(GameState.IntroSequence);
                 }

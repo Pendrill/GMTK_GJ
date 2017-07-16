@@ -8,6 +8,7 @@ public class EnemyManager : MonoBehaviour {
     public GameState currentState;
     float lastStateChange = 0.0f;
     float time;
+    public string[] fightingWords;
 
     SpriteRenderer enemyRenderer;
     float alpha, nextAttack;
@@ -53,6 +54,7 @@ public class EnemyManager : MonoBehaviour {
                 if(getStateElapsed() > 1.0f)
                 {
                     setCurrentState(GameState.wait);
+                    theGameManager.Fight.text = fightingWords[Random.Range(0, fightingWords.Length)];
                     theGameManager.setCurrentState(GameManager.GameState.PauseBeforeStart);
                     time = 0;
 
