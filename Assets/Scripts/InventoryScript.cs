@@ -26,6 +26,35 @@ public class InventoryScript : MonoBehaviour {
 	void Update () {
 		
 	}
+    
+
+    //Get the values of an item
+    public int itemNumber(Item item)
+    {
+        int index = 0;
+        switch (item)
+        {
+            case Item.EmberPebble:
+                index = 0;
+                break;
+            case Item.GaiaSeed:
+                index = 1;
+                break;
+            case Item.NimbusQuill:
+                index = 2;
+                break;
+            case Item.MermaidScale:
+                index = 3;
+                break;
+            case Item.Potion:
+                index = 4;
+                break;
+            default:
+                Debug.Log("Error: No item chosen.");
+                break;
+        }
+        return containedItems[index];
+    }
 
     //Check to see if there are any of hte given item in inventory
     public bool hasItem(Item item)

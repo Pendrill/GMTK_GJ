@@ -26,7 +26,15 @@ public class SpawnDuplicate : MonoBehaviour {
 
     //The buttonmanager
     public ButtonManager bm;
-	
+
+    //The number indicator corresponding to this button
+    public Text text;
+
+    void Start()
+    {
+        text =  transform.GetChild(0).GetComponent<Text>();
+    }
+
     void Update()
     {
         //When active, use appropriate sprite and allow us to press it
@@ -40,6 +48,7 @@ public class SpawnDuplicate : MonoBehaviour {
             GetComponent<Image>().sprite = inactiveSprite;
             GetComponent<Button>().interactable = false;
         }
+        text.text = inventory.itemNumber(itemType) + "";
     }
 
     //Creates a duplicate element to be mixed
