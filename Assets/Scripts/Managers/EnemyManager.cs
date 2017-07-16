@@ -17,12 +17,12 @@ public class EnemyManager : MonoBehaviour {
     PlayerManager thePlayerManager;
 
 	// Use this for initialization
-	void Start () {
-        maxHealth = 100.0f;
-        currentHealth = maxHealth;
+	void Start () {       
         enemyRenderer = GetComponent<SpriteRenderer>();
         theGameManager = FindObjectOfType<GameManager>();
         thePlayerManager = FindObjectOfType<PlayerManager>();
+        maxHealth = 9.0f + theGameManager.currentLevel;
+        currentHealth = maxHealth;
         nextAttack = 5f;
         //setCurrentState(GameState.appear);
 	}
@@ -97,5 +97,10 @@ public class EnemyManager : MonoBehaviour {
     float getStateElapsed()
     {
         return Time.time - lastStateChange;
+    }
+    public void dealDamage(float damage)
+    {
+        currentHealth -= damage;
+        Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 }

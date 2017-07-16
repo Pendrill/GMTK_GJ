@@ -4,10 +4,23 @@ using UnityEngine;
 
 public class EnemyType : MonoBehaviour {
     public string monsterType;
-    public Item drop;
+    public Item[] drop;
+    EnemyManager theEnemyManager;
+    GameManager theGameManager;
 	// Use this for initialization
 	void Start () {
-        drop = (Item)Random.Range(1, 5);
+        theGameManager = FindObjectOfType<GameManager>();
+        drop = new Item[theGameManager.totalDrop];
+        if(Random.Range(1,11) <= 2)
+        {
+            theGameManager.totalDrop += 1;
+            drop = new Item[theGameManager.totalDrop];
+        }
+        for (int i = 0; i < drop.Length; i++)
+        {
+            drop[i] = (Item)Random.Range(1, 5);
+        }
+        theEnemyManager = GetComponent<EnemyManager>();
 	}
 	
 	// Update is called once per frame
@@ -16,58 +29,72 @@ public class EnemyType : MonoBehaviour {
 	}
     private void OnCollisionEnter2D(Collision2D bomb)
     {
+        float damage = 1.0f;
         BombController theBomb = bomb.gameObject.GetComponent<BombController>();
+        if(theBomb.bounces == 0)
+        {
+            theBomb.bounces = 1;
+        }
+
         if (monsterType.Trim().Equals("Fire".Trim()))
         {
             if(theBomb.AFFINITY == Element.Water)
             {
-
+                damage = theBomb.DAMAGE * theBomb.bounces * 2;
             }else if(theBomb.AFFINITY == Element.Earth)
             {
-
+                damage = theBomb.DAMAGE * theBomb.bounces / 2;
             }else
             {
-
+                damage = theBomb.DAMAGE * theBomb.bounces;
             }
         }
         else if (monsterType.Trim().Equals("Water".Trim()))
         {
             if(theBomb.AFFINITY == Element.Air)
             {
-
-            }else if(theBomb.AFFINITY == Element.Fire)
+                damage = theBomb.DAMAGE * theBomb.bounces * 2;
+            }
+            else if(theBomb.AFFINITY == Element.Fire)
             {
-
-            }else
+                damage = theBomb.DAMAGE * theBomb.bounces / 2;
+            }
+            else
             {
-
+                damage = theBomb.DAMAGE * theBomb.bounces;
             }
         }
         else if (monsterType.Trim().Equals("Air".Trim()))
         {
             if(theBomb.AFFINITY == Element.Earth)
             {
-                
-            }else if(theBomb.AFFINITY == Element.Water)
+                damage = theBomb.DAMAGE * theBomb.bounces * 2;
+            }
+            else if(theBomb.AFFINITY == Element.Water)
             {
-
-            }else
+                damage = theBomb.DAMAGE * theBomb.bounces / 2;
+            }
+            else
             {
-
+                damage = theBomb.DAMAGE * theBomb.bounces;
             }
         }
         else if (monsterType.Trim().Equals("Earth".Trim()))
         {
             if(theBomb.AFFINITY == Element.Fire)
             {
-
-            }else if(theBomb.AFFINITY == Element.Air)
+                damage = theBomb.DAMAGE * theBomb.bounces * 2;
+            }
+            else if(theBomb.AFFINITY == Element.Air)
             {
-
-            }else
+                damage = theBomb.DAMAGE * theBomb.bounces / 2;
+            }
+            else
             {
-
+                damage = theBomb.DAMAGE * theBomb.bounces;
             }
         }
+        Debug.Log("The damage that was done was: " + damage);
+        theEnemyManager.dealDamage(damage);
     }
 }

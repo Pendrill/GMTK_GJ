@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
     public GameObject[] enemies;
     public GameObject[] backgrounds;
 
-    int currentLevel, lastLevelShop;
+    public int currentLevel, lastLevelShop;
     public bool shopKeepLevel;
 
     //List of all the possible states
@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
     bool enemyIsDefeated, playerIsDead;
 
     public Image fadeToBlack;
+    public int totalDrop = 5;
 
 
 
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour {
             case GameState.PauseBeforeStart:
                 time += Time.deltaTime;
                 //Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-377, -4), new Vector2(-15, -4), time);
-                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-377, -15, time), -4);
+                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-450, -15, time), -4);
                 if (getStateElapsed() > 2.0f)
                 {
                     thePlayerManager.setCurrentState(PlayerManager.GameState.Fight);
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.FightingEnemy:
                 time += Time.deltaTime;
-                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-15, 387, time*3), -4); // new Vector2(-15, -4), new Vector2(387, -4), time*3);
+                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-15, 600, time*3), -4); // new Vector2(-15, -4), new Vector2(387, -4), time*3);
 
                 //this code might be unnecessary, I think i can do these things from the player and ennemy manager.
                 /*if (enemyIsDefeated)
