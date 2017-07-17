@@ -11,7 +11,9 @@ public class EnemyManager : MonoBehaviour {
     public string[] fightingWords;
 
     SpriteRenderer enemyRenderer;
-    float alpha, nextAttack;
+    float alpha;
+    public float nextAttack;
+    public float attackTime = 5f;
 
     GameManager theGameManager;
     PlayerManager thePlayerManager;
@@ -23,13 +25,13 @@ public class EnemyManager : MonoBehaviour {
         thePlayerManager = FindObjectOfType<PlayerManager>();
         maxHealth = 9.0f + theGameManager.currentLevel;
         currentHealth = maxHealth;
-        nextAttack = 5f;
+        nextAttack = attackTime;
         //setCurrentState(GameState.appear);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         if (Input.GetKeyDown(KeyCode.Space))
         {
             currentHealth = -1;
@@ -61,17 +63,24 @@ public class EnemyManager : MonoBehaviour {
                 }
                 break;
             case GameState.attack:
-                Debug.Log("The enemy is now attacking");
+                //Debug.Log("The enemy is now attacking");
                 nextAttack -= Time.deltaTime;
                 if(nextAttack <= 0.0f)
                 {
-                    Debug.Log("the ennemy performed an attack");
-                    thePlayerManager.currentHealth -= 5;
-                    nextAttack = 5.0f;
+                    //Debug.Log("the enemy performed an attack");
+                    Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f, 0.1f);
+                    float damage = theGameManager.currentLevel * 5f;
+                    if (thePlayerManager.gameObject.GetComponent<AmplifyStatus>() != null)
+                    {
+                        damage *= thePlayerManager.gameObject.GetComponent<AmplifyStatus>().MULTIPLIER;
+                    }
+                    thePlayerManager.currentHealth -= damage;
+                    nextAttack = attackTime;
                 }
                 break;
             case GameState.die:
                 currentHealth = 1;
+                GetComponent<Collider2D>().enabled = false;
                 time += Time.deltaTime * 2;
                 Color tmp2 = enemyRenderer.color;
                 alpha = Mathf.Lerp(1.0f, 0.0f, time);

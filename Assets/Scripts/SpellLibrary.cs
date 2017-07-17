@@ -72,7 +72,7 @@ public class SpellLibrary : MonoBehaviour {
         spellLibrary[23] = new Spell("FlashFlood", (int)(T3_PURE_MULTIPLIER * (float)BASE_DAMAGE), Element.Water, "WWW", 3);
 
         //Tell bomb mix we are finished
-        bmc.ResetMix();
+        //bmc.ResetMix();
 
     }
 

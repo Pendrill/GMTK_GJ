@@ -16,12 +16,18 @@ public class FireButtonController : MonoBehaviour {
     //The spell bomb in question
     public GameObject bomb;
     ButtonManager theButtonManager;
+    public GameManager theGamemanager;
+    public PlayerManager thePlayerManager;
+    public ShopkeeperManager theShopkeeperManager;
 
     void Start()
     {
         //Ignore collision between UI and spell
         Physics2D.IgnoreLayerCollision(5, 8);
         theButtonManager = FindObjectOfType<ButtonManager>();
+        theGamemanager = FindObjectOfType<GameManager>();
+        thePlayerManager = FindObjectOfType<PlayerManager>();
+        theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
 
 
 
@@ -42,6 +48,14 @@ public class FireButtonController : MonoBehaviour {
         }
         else
         {
+            if (theGamemanager.shopKeepLevel)
+            {
+                //Debug.Log("should theshopkeepleave?");
+                theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
+                thePlayerManager.setCurrentState(PlayerManager.GameState.Wait);
+                theGamemanager.setCurrentState(GameManager.GameState.Wait);
+                theShopkeeperManager.setCurrentState(ShopkeeperManager.GameState.leave);
+            }
             bmc.GetComponent<BombMixController>().ResetMix();
         }
     }
@@ -69,6 +83,7 @@ public class FireButtonController : MonoBehaviour {
         {
             if(bomb == null)
             {
+                
                 GetComponent<LineRenderer>().SetPosition(1, transform.position);
                 bmc.GetComponent<BombMixController>().ResetMix();
                 bomb = null;
