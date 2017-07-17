@@ -50,7 +50,7 @@ public class BombMixController : MonoBehaviour {
 
     void Start()
     {
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 3, 0));
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 4, 0));
         worldPos.z = 0;
         transform.position = worldPos;
     
@@ -200,18 +200,18 @@ public class BombMixController : MonoBehaviour {
 
         if(validSpells.Count == 0)
         {
-            Debug.Log("Dud spell.");
+            //Debug.Log("Dud spell.");
             spell = new Spell("DudSpell", 0, Element.Neutral, "", combination.Length);
             PlayDudClip();
         }
         else if(validSpells.Count == 1)
         {
-            Debug.Log("Found the spell: " + validSpells[0].name);
+            //Debug.Log("Found the spell: " + validSpells[0].name);
             PlayIngredientClip();
         }
         else
         {
-            Debug.Log("Found no specific spell: " + validSpells.Count);
+            //Debug.Log("Found no specific spell: " + validSpells.Count);
             PlayIngredientClip();
         }
     }

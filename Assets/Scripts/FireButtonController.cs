@@ -50,7 +50,7 @@ public class FireButtonController : MonoBehaviour {
         {
             if (theGamemanager.shopKeepLevel)
             {
-                Debug.Log("should theshopkeepleave?");
+                //Debug.Log("should theshopkeepleave?");
                 theShopkeeperManager = FindObjectOfType<ShopkeeperManager>();
                 thePlayerManager.setCurrentState(PlayerManager.GameState.Wait);
                 theGamemanager.setCurrentState(GameManager.GameState.Wait);

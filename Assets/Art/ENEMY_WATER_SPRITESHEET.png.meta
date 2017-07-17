@@ -1,0 +1,323 @@
+fileFormatVersion: 2
+guid: aadca43406a56f6438270cf3f00c5315
+timeCreated: 1500240444
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: ENEMY_WATER_SPRITESHEET_0
+    21300002: ENEMY_WATER_SPRITESHEET_1
+    21300004: ENEMY_WATER_SPRITESHEET_2
+    21300006: ENEMY_WATER_SPRITESHEET_3
+    21300008: ENEMY_WATER_SPRITESHEET_4
+    21300010: ENEMY_WATER_SPRITESHEET_5
+    21300012: ENEMY_WATER_SPRITESHEET_6
+    21300014: ENEMY_WATER_SPRITESHEET_7
+    21300016: ENEMY_WATER_SPRITESHEET_8
+    21300018: ENEMY_WATER_SPRITESHEET_9
+    21300020: ENEMY_WATER_SPRITESHEET_10
+    21300022: ENEMY_WATER_SPRITESHEET_11
+    21300024: ENEMY_WATER_SPRITESHEET_12
+    21300026: ENEMY_WATER_SPRITESHEET_13
+    21300028: ENEMY_WATER_SPRITESHEET_14
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: -1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_0
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 9355
+        width: 1687
+        height: 2249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_1
+      rect:
+        serializedVersion: 2
+        x: 3431
+        y: 9355
+        width: 1687
+        height: 2244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_2
+      rect:
+        serializedVersion: 2
+        x: 6422
+        y: 9355
+        width: 1696
+        height: 2208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_3
+      rect:
+        serializedVersion: 2
+        x: 9425
+        y: 9355
+        width: 1693
+        height: 2220
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_4
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 6355
+        width: 1699
+        height: 2244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_5
+      rect:
+        serializedVersion: 2
+        x: 3431
+        y: 6355
+        width: 1687
+        height: 2249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_6
+      rect:
+        serializedVersion: 2
+        x: 6431
+        y: 6384
+        width: 1687
+        height: 2215
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_7
+      rect:
+        serializedVersion: 2
+        x: 9431
+        y: 6355
+        width: 1687
+        height: 2208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_8
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 3355
+        width: 1699
+        height: 2214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_9
+      rect:
+        serializedVersion: 2
+        x: 3425
+        y: 3355
+        width: 1693
+        height: 2243
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_10
+      rect:
+        serializedVersion: 2
+        x: 6431
+        y: 3355
+        width: 1687
+        height: 2249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_11
+      rect:
+        serializedVersion: 2
+        x: 9431
+        y: 3355
+        width: 1687
+        height: 2244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_12
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 355
+        width: 1744
+        height: 2208
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_13
+      rect:
+        serializedVersion: 2
+        x: 3431
+        y: 355
+        width: 1687
+        height: 2211
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: ENEMY_WATER_SPRITESHEET_14
+      rect:
+        serializedVersion: 2
+        x: 6431
+        y: 355
+        width: 1687
+        height: 2244
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

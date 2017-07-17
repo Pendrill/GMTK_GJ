@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour {
             case GameState.PauseBeforeStart:
                 time += Time.deltaTime;
                 //Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-377, -4), new Vector2(-15, -4), time);
-                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-450, -15, time), -4);
+                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-900, -15, time), -4);
                 if (getStateElapsed() > 2.0f)
                 {
                     thePlayerManager.setCurrentState(PlayerManager.GameState.Fight);
@@ -107,7 +108,7 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.FightingEnemy:
                 time += Time.deltaTime;
-                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-15, 600, time*3), -4); // new Vector2(-15, -4), new Vector2(387, -4), time*3);
+                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-15, 900, time*3), -4); // new Vector2(-15, -4), new Vector2(387, -4), time*3);
 
                 
                 if(getStateElapsed() > 1.0f)
@@ -150,7 +151,7 @@ public class GameManager : MonoBehaviour {
                 //Move on to Item Collection Phase
                 break;
             case GameState.ItemCollection:
-                Debug.Log("You have collected this: insert name here");
+                //Debug.Log("You have collected this: insert name here");
                 int fire = 0, water = 0, earth = 0, air = 0;
                 if (!shopKeepLevel)
                 {
@@ -366,12 +367,20 @@ public class GameManager : MonoBehaviour {
                 //this is for if we have the time;
                 break;
             case GameState.GameOverSequence:
-                Debug.Log("The Player Died");
+                //Debug.Log("The Player Died: " + getStateElapsed());
+                if (shopKeepLevel)
+                {
+                    theShopkeeperManager.setCurrentState(ShopkeeperManager.GameState.wait);
+                }
                 time += Time.deltaTime * 2;
                 Color tmp3 = fadeToBlack.color;
                 alpha = Mathf.Lerp(0.0f, 1.0f, time);
                 tmp3.a = alpha;
                 fadeToBlack.color = tmp3;
+                if(getStateElapsed() >= 2.0f)
+                {
+                    SceneManager.LoadScene(0);
+                }
                 //GAME OVER
                 break;
         }

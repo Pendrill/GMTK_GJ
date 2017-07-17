@@ -107,7 +107,7 @@ public class EnemyType : MonoBehaviour {
                 damage *= theBomb.bounces;
             }
         }
-        Debug.Log("The damage that was done was: " + damage);
+        //Debug.Log("The damage that was done was: " + damage);
 
         theEnemyManager.dealDamage(damage);
         return damage;

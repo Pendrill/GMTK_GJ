@@ -31,7 +31,7 @@ public class EnemyManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log(currentState);
+        //Debug.Log(currentState);
         if (Input.GetKeyDown(KeyCode.Space))
         {
             currentHealth = -1;
@@ -63,11 +63,11 @@ public class EnemyManager : MonoBehaviour {
                 }
                 break;
             case GameState.attack:
-                Debug.Log("The enemy is now attacking");
+                //Debug.Log("The enemy is now attacking");
                 nextAttack -= Time.deltaTime;
                 if(nextAttack <= 0.0f)
                 {
-                    Debug.Log("the enemy performed an attack");
+                    //Debug.Log("the enemy performed an attack");
                     Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f, 0.1f);
                     float damage = theGameManager.currentLevel * 5f;
                     if (thePlayerManager.gameObject.GetComponent<AmplifyStatus>() != null)

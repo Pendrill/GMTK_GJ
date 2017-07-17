@@ -28,6 +28,17 @@ public class ShopkeeperManager : MonoBehaviour {
         
 	}
 	
+    //Helper function to apply alpha to all children
+    public void AllChildrenAlpha(float alpha)
+    {
+        for(int i = 0; i < transform.childCount; i++)
+        {
+            Color temp = transform.GetChild(i).GetComponent<SpriteRenderer>().color;
+            transform.GetChild(i).GetComponent<SpriteRenderer>().color =
+                new Color(temp.r, temp.g, temp.b, alpha);
+        }
+    }
+
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -58,7 +69,7 @@ public class ShopkeeperManager : MonoBehaviour {
                 alpha = Mathf.Lerp(0.0f, 1.0f, time);
                 tmp.a = alpha;
                 shopKeepRen.color = tmp;
-                bucketRen.color = tmp;
+                AllChildrenAlpha(tmp.a);
                 if (getStateElapsed() > 1.0f)
                 {
                     setCurrentState(GameState.wait);
@@ -76,13 +87,14 @@ public class ShopkeeperManager : MonoBehaviour {
                 Color tmp4 = bucketRen.color;
                 alpha = Mathf.Lerp(1.0f, 0.0f, time);
                 tmp4.a = alpha;
-                bucketRen.color = tmp4;
-                Debug.Log("You've met a terrible fate haven't you");
+                AllChildrenAlpha(tmp4.a);
+                //Debug.Log("You've met a terrible fate haven't you");
                 nextAttack -= Time.deltaTime;
                 if (nextAttack <= 0.0f)
                 {
-                    Debug.Log("the shopkeeper proceeded to destroy you");
+                    //Debug.Log("the shopkeeper proceeded to destroy you");
                     thePlayerManager.currentHealth -= 5;
+                    Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f, 0.1f);
                     nextAttack = 2.0f;
                 }
                 break;
@@ -92,7 +104,7 @@ public class ShopkeeperManager : MonoBehaviour {
                 alpha = Mathf.Lerp(1.0f, 0.0f, time);
                 tmp2.a = alpha;
                 shopKeepRen.color = tmp2;
-                bucketRen.color = tmp2;
+                AllChildrenAlpha(tmp2.a);
                 if (getStateElapsed() > 1.0f)
                 {
                     setCurrentState(GameState.wait);
@@ -108,7 +120,7 @@ public class ShopkeeperManager : MonoBehaviour {
                 alpha = Mathf.Lerp(1.0f, 0.0f, time);
                 tmp3.a = alpha;
                 shopKeepRen.color = tmp3;
-                bucketRen.color = tmp3;
+                AllChildrenAlpha(tmp3.a);
                 if (getStateElapsed() > 1.0f)
                 {
                     setCurrentState(GameState.wait);

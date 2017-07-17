@@ -43,12 +43,12 @@ public class SpawnDuplicate : MonoBehaviour {
         //When active, use appropriate sprite and allow us to press it
         if (isActive)
         {
-            GetComponent<Image>().sprite = activeSprite;
+            //GetComponent<Image>().sprite = activeSprite;
             GetComponent<Button>().interactable = true;
         }
         else //When inactive, use appropriate sprite, and don't allow us to press it. 
         {
-            GetComponent<Image>().sprite = inactiveSprite;
+            //GetComponent<Image>().sprite = inactiveSprite;
             GetComponent<Button>().interactable = false;
         }
         text.text = inventory.itemNumber(itemType) + "";
