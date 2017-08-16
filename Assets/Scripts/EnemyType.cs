@@ -27,6 +27,93 @@ public class EnemyType : MonoBehaviour {
 	void Update () {
         
 	}
+
+    public float CalculateAndApplyDamage(BombController theBomb)
+    {
+        float damage = theBomb.DAMAGE;
+     
+        if (theBomb.bounces == 0)
+        {
+            theBomb.bounces = 1;
+        }
+
+        if(GetComponent<AmplifyStatus>() != null)
+        {
+            damage *= GetComponent<AmplifyStatus>().MULTIPLIER;
+        }
+
+
+        if (monsterType.Trim().Equals("Fire".Trim()))
+        {
+            if (theBomb.AFFINITY == Element.Water)
+            {
+                damage *= theBomb.bounces * 2;
+            }
+            else if (theBomb.AFFINITY == Element.Earth)
+            {
+                damage *= theBomb.bounces;
+                damage /= 2;
+            }
+            else
+            {
+                damage *= theBomb.bounces;
+            }
+        }
+        else if (monsterType.Trim().Equals("Water".Trim()))
+        {
+            if (theBomb.AFFINITY == Element.Air)
+            {
+                damage *= theBomb.bounces * 2;
+            }
+            else if (theBomb.AFFINITY == Element.Fire)
+            {
+                damage *= theBomb.bounces;
+                damage /= 2;
+            }
+            else
+            {
+                damage *= theBomb.bounces;
+            }
+        }
+        else if (monsterType.Trim().Equals("Air".Trim()))
+        {
+            if (theBomb.AFFINITY == Element.Earth)
+            {
+                damage *= theBomb.bounces * 2;
+            }
+            else if (theBomb.AFFINITY == Element.Water)
+            {
+                damage *= theBomb.bounces;
+                damage /= 2;
+            }
+            else
+            {
+                damage *= theBomb.bounces;
+            }
+        }
+        else if (monsterType.Trim().Equals("Earth".Trim()))
+        {
+            if (theBomb.AFFINITY == Element.Fire)
+            {
+                damage *= theBomb.bounces * 2;
+            }
+            else if (theBomb.AFFINITY == Element.Air)
+            {
+                damage *= theBomb.bounces;
+                damage /= 2;
+            }
+            else
+            {
+                damage *= theBomb.bounces;
+            }
+        }
+        //Debug.Log("The damage that was done was: " + damage);
+
+        theEnemyManager.dealDamage(damage);
+        return damage;
+    }
+
+    /*
     private void OnCollisionEnter2D(Collision2D bomb)
     {
         float damage = 1.0f;
@@ -95,6 +182,7 @@ public class EnemyType : MonoBehaviour {
             }
         }
         Debug.Log("The damage that was done was: " + damage);
+        
         theEnemyManager.dealDamage(damage);
-    }
+    }*/
 }

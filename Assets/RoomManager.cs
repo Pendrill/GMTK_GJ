@@ -18,6 +18,14 @@ public class RoomManager : MonoBehaviour {
         }
     }
 
+    //Helper function that will enable the clear room layout
+    public void EnableClearRoom()
+    {
+        DisableAllRooms();
+        selected = 0;
+        transform.GetChild(0).gameObject.SetActive(true);
+    }
+
 	//Helper function that will enable a random layout that is NOT the same as last time.
     public void EnableRandomRoom()
     {

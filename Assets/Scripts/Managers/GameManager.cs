@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -15,6 +16,9 @@ public class GameManager : MonoBehaviour {
     public GameObject shopkeeper;
     public ShopkeeperManager theShopkeeperManager;
     public ButtonManager theButtonManager;
+
+    //Reference to the room layout manager
+    public RoomManager rm;
 
     public GameObject[] enemies;
     public GameObject[] backgrounds;
@@ -30,7 +34,7 @@ public class GameManager : MonoBehaviour {
     //keeps track of the time spent in current state
     float lastStateChange = 0.0f;
 
-    public Text Fight, Collection;
+    public Text Fight, Collection, RoomLevel;
 
     public float time, alpha;
 
@@ -57,6 +61,8 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        RoomLevel.text = "Level: " + currentLevel;
 
         switch (currentState)
         {
@@ -88,7 +94,7 @@ public class GameManager : MonoBehaviour {
             case GameState.PauseBeforeStart:
                 time += Time.deltaTime;
                 //Fight.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(new Vector2(-377, -4), new Vector2(-15, -4), time);
-                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-450, -15, time), -4);
+                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-900, -15, time), -4);
                 if (getStateElapsed() > 2.0f)
                 {
                     thePlayerManager.setCurrentState(PlayerManager.GameState.Fight);
@@ -102,9 +108,14 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameState.FightingEnemy:
                 time += Time.deltaTime;
-                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-15, 600, time*3), -4); // new Vector2(-15, -4), new Vector2(387, -4), time*3);
+                Fight.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.SmoothStep(-15, 900, time*3), -4); // new Vector2(-15, -4), new Vector2(387, -4), time*3);
 
-                theButtonManager.SetAllButtons(true);
+                
+                if(getStateElapsed() > 1.0f)
+                {
+                    theButtonManager.SetAllButtons(true);
+                    setCurrentState(GameState.Wait);
+                }
                 //this code might be unnecessary, I think i can do these things from the player and ennemy manager.
                 /*if (enemyIsDefeated)
                 {
@@ -140,7 +151,7 @@ public class GameManager : MonoBehaviour {
                 //Move on to Item Collection Phase
                 break;
             case GameState.ItemCollection:
-                Debug.Log("You have collected this: insert name here");
+                //Debug.Log("You have collected this: insert name here");
                 int fire = 0, water = 0, earth = 0, air = 0;
                 if (!shopKeepLevel)
                 {
@@ -188,17 +199,23 @@ public class GameManager : MonoBehaviour {
                     Collection.gameObject.SetActive(true);
                 }else
                 {
-                    if(thePlayerManager.currentHealth == thePlayerManager.maxHealth)
+                    if(thePlayerManager.currentHealth == thePlayerManager.maxHealth && theShopkeeperManager.gameObject.transform.GetChild(0).GetComponent<ShopkeepBucket>().count > 0)
                     {
+                        
                        // thePlayerManager.currentHealth -= 25;
                        // thePlayerManager.maxHealth += 50;
-                        Collection.text = "Thank you for these ressources stranger. \nYou seem in good health, let me enhances your abilities\n\nYour max health pool has increased to: " + thePlayerManager.maxHealth + 50 + "\nUnfortunately, you had to sustain 25 damage.";
+                        Collection.text = "Thank you for these resources stranger. \nYou seem in good health, let me enhances your abilities\n\nYour max health pool has increased to: " + (thePlayerManager.maxHealth + 50) + "\nUnfortunately, you had to sustain 25 damage.";
+                    }
+                    else if(theShopkeeperManager.gameObject.transform.GetChild(0).GetComponent<ShopkeepBucket>().count > 0)
+                    {
+                        
+                        //thePlayerManager.currentHealth += 25;
+                        //Mathf.Clamp(thePlayerManager.currentHealth, 0, thePlayerManager.maxHealth);
+                        Collection.text = "Thank you for these resources stranger.\nLet me heal your wounds";
                     }
                     else
                     {
-                        //thePlayerManager.currentHealth += 25;
-                        //Mathf.Clamp(thePlayerManager.currentHealth, 0, thePlayerManager.maxHealth);
-                        Collection.text = "Thank you for theses ressources stranger.\nLet me heal your wounds";
+                        Collection.text = "Another time then...";
                     }
                     Collection.gameObject.SetActive(true);
                 }
@@ -224,14 +241,16 @@ public class GameManager : MonoBehaviour {
                         }
                     }else
                     {
-                        if (thePlayerManager.currentHealth == thePlayerManager.maxHealth)
+                        if (thePlayerManager.currentHealth == thePlayerManager.maxHealth && theShopkeeperManager.gameObject.transform.GetChild(0).GetComponent<ShopkeepBucket>().count > 0)
                         {
+                            theShopkeeperManager.gameObject.transform.GetChild(0).GetComponent<ShopkeepBucket>().count = 0;
                             thePlayerManager.currentHealth -= 25;
                             thePlayerManager.maxHealth += 50;
                             //Collection.text = "Thank you for these ressources stranger. \nYou seem in good health, let me enhances your abilities\n\nYour max health pool has increased to: " + thePlayerManager.maxHealth + "\nUnfortunately, you had to sustain 25 damage.";
                         }
-                        else
+                        else if(theShopkeeperManager.gameObject.transform.GetChild(0).GetComponent<ShopkeepBucket>().count > 0)
                         {
+                            theShopkeeperManager.gameObject.transform.GetChild(0).GetComponent<ShopkeepBucket>().count = 0;
                             //thePlayerManager.currentHealth += 25;
                             thePlayerManager.currentHealth = Mathf.Clamp(thePlayerManager.currentHealth += 25, 0, thePlayerManager.maxHealth) ;
                             //Collection.text = "Thank you for theses ressources stranger.\nLet me heal your wounds";
@@ -246,6 +265,10 @@ public class GameManager : MonoBehaviour {
                 //updating levels and percentages might happen here 
                 break;
             case GameState.RestartPhase:
+
+                //Emable a random room
+                rm.EnableClearRoom();
+
                 //this is where we change the background, music, ennemies, shopkeep, etc
                 shopKeepLevel = false;
                 time += Time.deltaTime * 2;
@@ -253,6 +276,7 @@ public class GameManager : MonoBehaviour {
                 alpha = Mathf.Lerp(1.0f, 0.0f, time / 2);
                 tmp2.a = alpha;
                 fadeToBlack.color = tmp2;
+
                 if(getStateElapsed() > 2.0f)
                 {
                     //attempts to spawn a shopkeeper
@@ -263,20 +287,23 @@ public class GameManager : MonoBehaviour {
                     {
                         Destroy(theShopkeeperManager.gameObject);
                         Instantiate(enemies[Random.Range(0, 3)]);
-                        
-                    }else if(levelsSinceShop < 4)
+                        rm.EnableRandomRoom();
+                    }
+                    else if(levelsSinceShop < 4)
                     {
                         Destroy(theEnemyManager.gameObject);
                         int spawnshop = Random.Range(1, 11);
-                        if(spawnshop <= 10)
+                        if(spawnshop <= 2)
                         {
                             //Instantiate the shopkeeper
+                            
                             Instantiate(shopkeeper);
                             shopKeepLevel = true;
                             lastLevelShop = currentLevel;
                         }else
                         {
                             Instantiate(enemies[Random.Range(0, 3)]);
+                            rm.EnableRandomRoom();
                         }                        
                     }
                     else if(levelsSinceShop < 8)
@@ -286,6 +313,7 @@ public class GameManager : MonoBehaviour {
                         if (spawnshop <= 4)
                         {
                             //Instantiate the shopkeeper
+                            
                             Instantiate(shopkeeper);
                             shopKeepLevel = true;
                             lastLevelShop = currentLevel;
@@ -293,6 +321,7 @@ public class GameManager : MonoBehaviour {
                         else
                         {
                             Instantiate(enemies[Random.Range(0, 3)]);
+                            rm.EnableRandomRoom();
                         }
                     }
                     else if(levelsSinceShop < 10)
@@ -302,6 +331,7 @@ public class GameManager : MonoBehaviour {
                         if (spawnshop <= 6)
                         {
                             //Instantiate the shopkeeper
+                           
                             Instantiate(shopkeeper);
                             shopKeepLevel = true;
                             lastLevelShop = currentLevel;
@@ -309,10 +339,12 @@ public class GameManager : MonoBehaviour {
                         else
                         {
                             Instantiate(enemies[Random.Range(0, 3)]);
+                            rm.EnableRandomRoom();
                         }
                     }
                     else if(levelsSinceShop >= 10)
                     {
+                    
                         Destroy(theEnemyManager.gameObject);
                         //instantiate the shopkeeper
                         Instantiate(shopkeeper);
@@ -322,6 +354,7 @@ public class GameManager : MonoBehaviour {
                     //Destroy(theEnemyManager.gameObject);
                     //Instantiate(enemies[Random.Range(0, 3)]);
                     time = 0;
+
                     setCurrentState(GameState.IntroSequence);
                 }
                 break;
@@ -334,12 +367,20 @@ public class GameManager : MonoBehaviour {
                 //this is for if we have the time;
                 break;
             case GameState.GameOverSequence:
-                Debug.Log("The Player Died");
+                //Debug.Log("The Player Died: " + getStateElapsed());
+                if (shopKeepLevel)
+                {
+                    theShopkeeperManager.setCurrentState(ShopkeeperManager.GameState.wait);
+                }
                 time += Time.deltaTime * 2;
                 Color tmp3 = fadeToBlack.color;
                 alpha = Mathf.Lerp(0.0f, 1.0f, time);
                 tmp3.a = alpha;
                 fadeToBlack.color = tmp3;
+                if(getStateElapsed() >= 2.0f)
+                {
+                    SceneManager.LoadScene(0);
+                }
                 //GAME OVER
                 break;
         }

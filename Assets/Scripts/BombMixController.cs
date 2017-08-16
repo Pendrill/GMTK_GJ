@@ -45,17 +45,27 @@ public class BombMixController : MonoBehaviour {
     //The colors which will be used as the text
     public Color fireColor, waterColor, earthColor, airColor;
 
+    //The colors that display the power of a spell
+    public Color[] powerColors;
+
     void Start()
     {
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 3, 0));
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 4, 0));
         worldPos.z = 0;
         transform.position = worldPos;
-
-        validSpells = new List<Spell>();
-        sl = gameManager.GetComponent<SpellLibrary>();
+    
         //ResetMix();
-
         audioSource = GetComponent<AudioSource>();
+
+        //Set colors on all button text
+        bm.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = fireColor;
+        bm.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = waterColor;
+
+        bm.transform.GetChild(2).GetChild(0).GetComponent<Text>().color = earthColor;
+
+        bm.transform.GetChild(3).GetChild(0).GetComponent<Text>().color = airColor;
+
+
     }
 
     //Helper function that plays the sound of the dud
@@ -105,6 +115,7 @@ public class BombMixController : MonoBehaviour {
             temp.GetComponent<BombController>().DAMAGE = spell.damage;
             temp.GetComponent<BombController>().AFFINITY = spell.affinity;
             temp.GetComponent<BombController>().TIER = spell.tier;
+            temp.GetComponent<BombController>().powerColors = powerColors;
             crafting = false;
 
             spellText.color = SelectColor(spell.affinity);
@@ -159,8 +170,18 @@ public class BombMixController : MonoBehaviour {
     public void UpdateValidSpells()
     {
         int index = 0;
-      
-        while(index < validSpells.Count)
+
+        if(validSpells == null)
+        {
+            validSpells = new List<Spell>();
+            sl = gameManager.GetComponent<SpellLibrary>();
+            for (int i = 0; i < sl.spellLibrary.Length; i++)
+            {
+                validSpells.Add(sl.spellLibrary[i]);
+            }
+        }
+
+        while (index < validSpells.Count)
         {
             if(!sl.CompareString(combination, validSpells[index].combination))
             {
@@ -179,18 +200,18 @@ public class BombMixController : MonoBehaviour {
 
         if(validSpells.Count == 0)
         {
-            Debug.Log("Dud spell.");
+            //Debug.Log("Dud spell.");
             spell = new Spell("DudSpell", 0, Element.Neutral, "", combination.Length);
             PlayDudClip();
         }
         else if(validSpells.Count == 1)
         {
-            Debug.Log("Found the spell: " + validSpells[0].name);
+            //Debug.Log("Found the spell: " + validSpells[0].name);
             PlayIngredientClip();
         }
         else
         {
-            Debug.Log("Found no specific spell: " + validSpells.Count);
+            //Debug.Log("Found no specific spell: " + validSpells.Count);
             PlayIngredientClip();
         }
     }
@@ -211,14 +232,17 @@ public class BombMixController : MonoBehaviour {
         //Reset button visibility
         bm.SetAllButtons(true);
 
+        //Reset valid spells list
+        if (validSpells != null)
+        {
+            validSpells.Clear();
+        }
+
         //Reset spell
         spell = null;
 
         //Reset combinatory string
         combination = "";
-
-        //Reset valid spells list
-        validSpells.Clear();
 
         for(int i = 0; i < sl.spellLibrary.Length; i++)
         {
