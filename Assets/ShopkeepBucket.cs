@@ -32,4 +32,5 @@ public class ShopkeepBucket : MonoBehaviour {
             Destroy(Bomb.gameObject);
         
     }
+    
 }
